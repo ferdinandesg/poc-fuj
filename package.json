@@ -9,17 +9,35 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@prisma/client": "^5.1.1",
+    "@tanstack/react-query": "^4.32.6",
+    "@trpc/client": "^10.37.1",
+    "@trpc/next": "^10.37.1",
+    "@trpc/react-query": "^10.37.1",
+    "@trpc/server": "^10.37.1",
     "@types/node": "20.5.0",
     "@types/react": "18.2.20",
     "@types/react-dom": "18.2.7",
-    "autoprefixer": "10.4.15",
     "eslint": "8.47.0",
     "eslint-config-next": "13.4.18",
+    "lucide": "^0.268.0",
+    "lucide-react": "^0.268.0",
     "next": "13.4.18",
-    "postcss": "8.4.28",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "tailwindcss": "3.3.3",
-    "typescript": "5.1.6"
+    "react-hook-form": "^7.45.4",
+    "react-input-mask": "^2.0.4",
+    "tailwind-merge": "^1.14.0",
+    "twilio": "^4.15.0",
+    "typescript": "5.1.6",
+    "zod": "^3.22.1"
+  },
+  "devDependencies": {
+    "@types/react-input-mask": "^3.0.2",
+    "@types/twilio": "^3.19.3",
+    "autoprefixer": "^10.4.15",
+    "postcss": "^8.4.28",
+    "prisma": "^5.1.1",
+    "tailwindcss": "^3.3.3"
   }
 }

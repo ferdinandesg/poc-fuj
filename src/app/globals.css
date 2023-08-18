@@ -25,3 +25,10 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+input:focus-visible {
+  outline: none !important;
+}
+input {
+  padding: 0.5rem;
+}

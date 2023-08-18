@@ -30,10 +30,10 @@ export default function Address() {
     <>
       <div className="flex flex-col">
         <label htmlFor="address" className="font-semibold mb-2">
-          Endereço
+          CEP
         </label>
         <input
-          placeholder="Ex.: "
+          placeholder="Ex.: 12345-000"
           type="text"
           id="address"
           {...register("address")}

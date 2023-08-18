@@ -20,11 +20,14 @@ const maskCPF = (doc: string) => {
     .replace(/(-\d{2})\d+?$/, "$1");
 };
 
+const invalidDocumentRegex =
+  /^(?!000\.|111\.|222\.|333\.|444\.|555\.|666\.|777\.|888\.|999\.)(\d{3}\.\d{3}\.\d{3}-\d{2})$/;
+
 export default function DocumentForm() {
   const { nextStep, backStep } = useWizard();
   const { register, watch, setValue } = useFormContext<UserForm>(); // retrieve all hook methods
   const watchDocument = watch("document");
-  const isValidDocument = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/.test(watchDocument);
+  const isValidDocument = invalidDocumentRegex.test(watchDocument);
   useEffect(() => {
     setValue("document", maskCPF(watchDocument));
   }, [watchDocument]);

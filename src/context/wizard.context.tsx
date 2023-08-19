@@ -2,21 +2,16 @@
 import { ReactNode, createContext, useContext, useState } from "react";
 import {
   useFormContext,
-  FieldErrors,
-  UseFormWatch,
-  FieldValues,
-  UseFormGetFieldState,
 } from "react-hook-form";
 interface UserForm {
   name: string;
   email: string;
   phone: string;
   document: string;
-  address: string;
+  addressId: string;
 }
 type WizardContextProps = {
   step: number;
-  create: () => void;
   nextStep: () => void;
   backStep: () => void;
 };
@@ -29,10 +24,9 @@ type ContextProviderProps = {
 export const WizardContextProvider = ({ children }: ContextProviderProps) => {
   const [step, setStep] = useState<number>(1);
   const {
-    formState: { errors, isValid },
+    formState: { isValid },
     getValues,
-    control: { getFieldState },
-    watch,
+    handleSubmit
   } = useFormContext<UserForm>();
   const nextStep = () => {
     setStep((m) => m + 1);
@@ -43,13 +37,9 @@ export const WizardContextProvider = ({ children }: ContextProviderProps) => {
     setStep((m) => m - 1);
   };
 
-  const create = () => {
-    console.log({ formValid: isValid });
-    console.log(getValues());
-    if (!isValid) return;
-  };
+  
   return (
-    <WizardContext.Provider value={{ step, nextStep, backStep, create }}>
+    <WizardContext.Provider value={{ step, nextStep, backStep }}>
       {children}
     </WizardContext.Provider>
   );

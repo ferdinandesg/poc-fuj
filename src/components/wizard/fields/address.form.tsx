@@ -6,7 +6,7 @@ interface UserForm {
   name: string;
   email: string;
   phone: string;
-  address: string;
+  addressId: string;
   document: string;
 }
 const maskCEP = (cep: string) => {
@@ -19,12 +19,12 @@ const maskCEP = (cep: string) => {
 };
 export default function Address() {
   const { nextStep, backStep } = useWizard();
-  const { register, setValue, watch } = useFormContext<UserForm>(); // retrieve all hook methods
+  const { register, setValue, watch } = useFormContext<UserForm>(); 
 
-  const watchCep = watch("address");
+  const watchCep = watch("addressId");
   const isCepValid = /^\d{5}-\d{3}$/.test(watchCep);
   useEffect(() => {
-    setValue("address", maskCEP(watchCep));
+    setValue("addressId", maskCEP(watchCep));
   }, [watchCep]);
   return (
     <>
@@ -36,12 +36,12 @@ export default function Address() {
           placeholder="Ex.: 12345-000"
           type="text"
           id="address"
-          {...register("address")}
+          {...register("addressId")}
         />
       </div>
       <div className="flex justify-between mt-2">
         <button
-          className="hover:bg-red-500 hover:text-white border-red-500 rounded text-red-500 border p-2"
+          className="hover:bg-red-500 hover:text-white bg-white border-red-500 rounded text-red-500 border p-2"
           onClick={backStep}
         >
           Voltar

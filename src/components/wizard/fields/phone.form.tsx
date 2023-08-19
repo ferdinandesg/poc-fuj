@@ -22,13 +22,13 @@ const maskPhone = (phone: string) => {
     .replace(/(\d{4})\d+?$/, "$1");
 };
 export default function PhoneForm() {
-  const { backStep, create } = useWizard();
+  const { backStep, nextStep } = useWizard();
   const {
     register,
-    formState: { errors },
+    formState: { touchedFields },
     watch,
     setValue,
-  } = useFormContext<UserForm>(); // retrieve all hook methods
+  } = useFormContext<UserForm>(); 
   const watchCep = watch("phone");
   const isPhoneValid = /^\(\d{2}\) \d{5}-\d{4}$/.test(watchCep);
   useEffect(() => {
@@ -45,10 +45,11 @@ export default function PhoneForm() {
           id="phone"
           {...register("phone", { required: true })}
         />
+        {touchedFields.phone && !isPhoneValid && <span className="text-xs mt-1 text-red-600">Campo inválido </span>}
       </div>
       <div className="flex justify-between mt-2">
         <button
-          className="hover:bg-red-500 hover:text-white border-red-500 rounded text-red-500 border p-2"
+          className="hover:bg-red-500 hover:text-white bg-white border-red-500 rounded text-red-500 border p-2"
           onClick={backStep}
         >
           Voltar
@@ -56,9 +57,9 @@ export default function PhoneForm() {
         <button
           className="disabled:bg-orange-400 bg-orange-600 rounded text-white p-2"
           disabled={!isPhoneValid}
-          onClick={create}
+          onClick={nextStep}
         >
-          Finalizar
+          Próximo
         </button>
       </div>
     </>

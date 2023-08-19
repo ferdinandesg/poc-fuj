@@ -1,4 +1,3 @@
-'use client'
 import { appRouter } from "@/server/routers/_app";
 import {
     FetchCreateContextFnOptions,

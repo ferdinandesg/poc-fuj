@@ -8,6 +8,8 @@ import PhoneForm from "./fields/phone.form";
 import { twMerge } from "tailwind-merge";
 import { ReactNode } from "react";
 import { User, Phone, Home, Wallet2 } from "lucide-react";
+import ConfirmationForm from "./forms/confirmation.form";
+import Link from "next/link";
 interface Step {
   step: number;
   label: string;
@@ -40,6 +42,12 @@ function ActiveStepFormComponent() {
           <PhoneForm />
         </Stepper.Step>
       );
+    case 5:
+      return (
+        <Stepper.Step>
+          <ConfirmationForm />
+        </Stepper.Step>
+      );
     default:
       return null;
   }
@@ -54,20 +62,24 @@ export default function UserWizard() {
     { step: 4, label: "Telefone", icon: <Phone /> },
   ];
   return (
-    <Stepper.Root className="w-3/4 h-screen mx-auto bg-lime-100  p-4">
-      <ul className="flex justify-between w-1/2 mx-auto mb-4 ">
+    <Stepper.Root className="md:w-3/4 w-full h-screen mx-auto bg-lime-100 p-4">
+      <div className="w-full mb-4">
+        <Link href="/" className="text-xs underline cursor-pointer hover:text-gray-500">Ir para a página principal</Link>
+
+      </div>
+      <ul className="md:w-1/2 flex justify-between w-full mx-auto mb-4 ">
         {STEPS.map((x) => (
           <li
             key={`step-${x.label}`}
             className={twMerge(
-              "p-4 rounded flex flex-col items-center w-24  border-4 gap-2",
+              "md:p-4 p-2 md:w-24 w-16 rounded flex flex-col items-center border-4 gap-2",
               x.step > step
                 ? "bg-orange-400 border-transparent"
                 : "bg-orange-600 border-white"
             )}
           >
             <span className="font-semibold text-white">{x.icon}</span>
-            <span className="text-white text-sm">{x.label}</span>
+            <span className="text-white text-sm hidden md:block">{x.label}</span>
           </li>
         ))}
       </ul>

@@ -1,7 +1,7 @@
 "use client";
 import { useWizard } from "@/context/wizard.context";
-import { useEffect } from "react";
-import { useFormContext } from "react-hook-form";
+import { useEffect, HTMLProps } from "react";
+import { UseFormRegister, useFormContext } from "react-hook-form";
 interface UserForm {
   name: string;
   email: string;
@@ -25,7 +25,9 @@ const invalidDocumentRegex =
 
 export default function DocumentForm() {
   const { nextStep, backStep } = useWizard();
-  const { register, watch, setValue } = useFormContext<UserForm>(); // retrieve all hook methods
+  const { register, watch, setValue,
+    formState: { touchedFields },
+  } = useFormContext<UserForm>();
   const watchDocument = watch("document");
   const isValidDocument = invalidDocumentRegex.test(watchDocument);
   useEffect(() => {
@@ -33,20 +35,10 @@ export default function DocumentForm() {
   }, [watchDocument]);
   return (
     <>
-      <div className="flex flex-col">
-        <label htmlFor="document" className="font-semibold mb-2">
-          CPF
-        </label>
-        <input
-          placeholder="Ex.: 000-000-000-00"
-          type="text"
-          id="document"
-          {...register("document")}
-        />
-      </div>
+      <DocumentInput register={register} showError={touchedFields.document && !isValidDocument} />
       <div className="flex justify-between mt-2">
         <button
-          className="hover:bg-red-500 hover:text-white border-red-500 rounded text-red-500 border p-2"
+          className="hover:bg-red-500 hover:text-white bg-white border-red-500 rounded text-red-500 border p-2"
           onClick={backStep}
         >
           Voltar
@@ -62,3 +54,23 @@ export default function DocumentForm() {
     </>
   );
 }
+
+interface DocumentInputProps extends HTMLProps<HTMLInputElement> {
+  showError?: boolean,
+  register?: UseFormRegister<
+    any>
+}
+export const DocumentInput = ({ showError, register, ...props }: DocumentInputProps) => <div className="flex flex-col">
+  <label htmlFor="document" className="font-semibold mb-2">
+    CPF
+  </label>
+  <input
+    placeholder="Ex.: 000-000-000-00"
+    type="text"
+    id="document"
+    onChange={(e) => e.target.value = maskCPF(e.target.value)}
+    {...register ? register("document") : undefined}
+    {...props}
+  />
+  {showError && <span className="text-xs mt-1 text-red-600">Campo inválido</span>}
+</div>

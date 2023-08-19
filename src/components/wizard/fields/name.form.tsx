@@ -9,7 +9,7 @@ interface UserForm {
 }
 export default function NameForm() {
   const { nextStep } = useWizard();
-  const { register, watch } = useFormContext<UserForm>(); // retrieve all hook methods
+  const { register, watch } = useFormContext<UserForm>(); 
   const watchName = watch("name")?.length > 5;
 
   return (
@@ -23,6 +23,7 @@ export default function NameForm() {
           type="text"
           id="name"
           placeholder="Ex.: João Silva"
+          className="text-sm"
           {...register("name")}
         />
       </div>

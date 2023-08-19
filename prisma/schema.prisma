@@ -11,18 +11,21 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  name      String   @unique
-  phone     String?
-  document  String?
-  address   Address? @relation(fields: [addressId], references: [id])
-  addressId String?  @db.ObjectId
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  name        String    @unique
+  phone       String
+  document    String
+  promotion   Promotion @relation(fields: [promotionId], references: [id])
+  // address     Address?  @relation(fields: [addressId], references: [id])
+  addressId   String?
+  promotionId String    @db.ObjectId
 }
 
 model Promotion {
-  id           String  @id @default(auto()) @map("_id") @db.ObjectId
-  smsVerified  Boolean @default(false)
-  handVerified Boolean @default(false)
+  id   String  @id @default(auto()) @map("_id") @db.ObjectId
+  sms  SmsType
+  palm Boolean @default(false)
+  User User[]
 }
 
 model Address {
@@ -32,5 +35,10 @@ model Address {
   state       String
   complement  String?
   houseNumber String
-  User        User[]
+  // User        User[]
+}
+
+type SmsType {
+  code       String
+  isVerified Boolean @default(false)
 }

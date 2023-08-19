@@ -1,7 +1,8 @@
 "use client";
 import { WizardContextProvider } from "@/context/wizard.context";
-import UserWizard from "../components/wizard/user";
+import UserWizard from "@/components/wizard/user";
 import { useForm, FormProvider } from "react-hook-form";
+import PhoneConfirm from "@/components/wizard/forms/phone.confirm";
 interface UserForm {
   name: string;
   email: string;
@@ -10,11 +11,12 @@ interface UserForm {
 }
 export default function Register() {
   const methods = useForm<UserForm>();
+
   return (
     <FormProvider {...methods}>
       <WizardContextProvider>
         <main className="flex min-h-screen items-center justify-between bg-lime-500">
-          <UserWizard />
+          {!methods.formState.isSubmitted ? <UserWizard /> : <PhoneConfirm />}
         </main>
       </WizardContextProvider>
     </FormProvider>

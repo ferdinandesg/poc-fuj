@@ -45,8 +45,8 @@ export default function DocumentForm() {
       const user = await userMutation.mutateAsync({
         document: formattedDocument,
       });
-      setValue("name", user.name);
-      setValue("phone", user.phone);
+      if (user.name) setValue("name", user.name);
+      if (user.phone) setValue("phone", user?.phone);
       setValue("address", user.addressId || "");
       nextStep();
     } catch (error: any) {

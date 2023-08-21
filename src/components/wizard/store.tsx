@@ -8,8 +8,8 @@ import { ReactNode } from "react";
 import { CreditCard, User } from "lucide-react";
 import Link from "next/link";
 import ConfirmationForm from "./forms/confirmation.form";
-import DocumentForm from "./store/document.form";
 import CardForm from "./store/card.form";
+import DocumentForm from "./fields/document.form";
 interface Step {
     step: number;
     label: string;

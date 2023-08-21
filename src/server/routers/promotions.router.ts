@@ -18,7 +18,7 @@ export const promotionsRouter = router({
       });
       if (!user) throw "Usuário não encontrado, contate o administrador";
       const updated = await prisma.promotion.update({
-        where: { id: user.promotion.id },
+        where: { id: user.promotion?.id },
         data: { sms: { code, isVerified: true } },
       });
       if (!updated) throw "Código inválido";
@@ -28,13 +28,18 @@ export const promotionsRouter = router({
     .input(z.object({ cardToken: z.string(), document: z.string() }))
     .mutation(async ({ input }) => {
       const { cardToken, document } = input;
-      const user = await prisma.user.updateMany({
+      const user = await prisma.user.upsert({
         where: {
           document,
         },
-        data: { cardToken },
+        update: { cardToken },
+        create: {
+          document,
+          cardToken
+        }
       });
-      if (!user.count) throw "Usuário não encontrado, contate o administrador";
+      if (!user) throw "Usuário não encontrado, contate o administrador";
       return { ok: true };
     }),
+
 });

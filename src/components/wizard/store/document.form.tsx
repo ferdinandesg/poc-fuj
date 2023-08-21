@@ -3,7 +3,7 @@ import { useWizard } from "@/context/wizard.context";
 import { trpc } from "@/utils/trpc";
 import { useEffect, HTMLProps } from "react";
 import { UseFormRegister, useFormContext } from "react-hook-form";
-import { toast } from 'react-toastify'
+import { toast } from "react-toastify";
 interface UserForm {
   name: string;
   address: string;
@@ -27,10 +27,13 @@ const invalidDocumentRegex =
 
 export default function DocumentForm() {
   const { nextStep, backStep } = useWizard();
-  const { register, watch, setValue,
+  const {
+    register,
+    watch,
+    setValue,
     formState: { touchedFields },
   } = useFormContext<UserForm>();
-  const userMutation = trpc.users.getByDocument.useMutation()
+  const userMutation = trpc.users.getByDocument.useMutation();
   const watchDocument = watch("document");
   const isValidDocument = invalidDocumentRegex.test(watchDocument);
   useEffect(() => {
@@ -38,19 +41,24 @@ export default function DocumentForm() {
   }, [watchDocument]);
   const handleNextStep = async () => {
     try {
-      const formattedDocument = watchDocument.replace(/[^0-9]/g, "")
-      const user = await userMutation.mutateAsync({ document: formattedDocument })
-      setValue("name", user.name)
-      setValue("phone", user.phone)
-      setValue("address", user.addressId || "")
-      nextStep()
+      const formattedDocument = watchDocument.replace(/[^0-9]/g, "");
+      const user = await userMutation.mutateAsync({
+        document: formattedDocument,
+      });
+      setValue("name", user.name);
+      setValue("phone", user.phone);
+      setValue("address", user.addressId || "");
+      nextStep();
     } catch (error: any) {
-      if (error?.message) toast(error.message)
+      if (error?.message) toast(error.message);
     }
-  }
+  };
   return (
     <>
-      <DocumentInput register={register} showError={touchedFields.document && !isValidDocument} />
+      <DocumentInput
+        register={register}
+        showError={touchedFields.document && !isValidDocument}
+      />
       <div className="flex justify-between mt-2">
         <button
           className="hover:bg-red-500 hover:text-white bg-white border-red-500 rounded text-red-500 border p-2"
@@ -71,21 +79,28 @@ export default function DocumentForm() {
 }
 
 interface DocumentInputProps extends HTMLProps<HTMLInputElement> {
-  showError?: boolean,
-  register?: UseFormRegister<
-    any>
+  showError?: boolean;
+  register?: UseFormRegister<any>;
 }
-export const DocumentInput = ({ showError, register, ...props }: DocumentInputProps) => <div className="flex flex-col">
-  <label htmlFor="document" className="font-semibold mb-2">
-    CPF
-  </label>
-  <input
-    placeholder="Ex.: 000-000-000-00"
-    type="text"
-    id="document"
-    onChange={(e) => e.target.value = maskCPF(e.target.value)}
-    {...register ? register("document") : undefined}
-    {...props}
-  />
-  {showError && <span className="text-xs mt-1 text-red-600">Campo inválido</span>}
-</div>
+export const DocumentInput = ({
+  showError,
+  register,
+  ...props
+}: DocumentInputProps) => (
+  <div className="flex flex-col">
+    <label htmlFor="document" className="font-semibold mb-2">
+      CPF
+    </label>
+    <input
+      placeholder="Ex.: 000-000-000-00"
+      type="text"
+      id="document"
+      onChange={(e) => (e.target.value = maskCPF(e.target.value))}
+      {...(register ? register("document") : undefined)}
+      {...props}
+    />
+    {showError && (
+      <span className="text-xs mt-1 text-red-600">Campo inválido</span>
+    )}
+  </div>
+);

@@ -17,16 +17,16 @@ export const usersRouter = router({
     const inserted = await prisma.user.create({
       data: { ...input, promotionId: promotion.id },
     });
-    // client.messages
-    //   .create({
-    //     from: "+18156058261",
-    //     to: `+55${inserted.phone}`,
-    //     body: `Seu código de confirmação é ${code}.`,
-    //   })
-    //   .then((_) => console.log("SMS Enviado com sucesso!"))
-    //   .catch((er) =>
-    //     console.error("Erro ao enviar sms\n", JSON.stringify(er, null, 4))
-    //   );
+    client.messages
+      .create({
+        from: "+18156058261",
+        to: `+55${inserted.phone}`,
+        body: `Seu código de confirmação é ${code}.`,
+      })
+      .then((_) => console.log("SMS Enviado com sucesso!"))
+      .catch((er) =>
+        console.error("Erro ao enviar sms\n", JSON.stringify(er, null, 4))
+      );
     return inserted;
   }),
   getByDocument: procedure
@@ -45,10 +45,29 @@ export const usersRouter = router({
         where: {
           document: input.document,
         },
-        select: { promotion: true, document: true },
+        select: { promotion: true, document: true, name: true },
       });
       if (!user) throw "Usuário não encontrado";
-      if (!user.promotion.sms.isVerified) throw "Conta não verificada";
       return user;
     }),
+  fastRegister: procedure.input(userSchema).mutation(async ({ input }) => {
+    const code = generateSMSCode();
+    const promotion = await prisma.promotion.create({
+      data: { sms: { code } },
+    });
+    const inserted = await prisma.user.create({
+      data: { ...input, promotionId: promotion.id },
+    });
+    client.messages
+      .create({
+        from: "+18156058261",
+        to: `+55${inserted.phone}`,
+        body: `Seu código de confirmação é ${code}.`,
+      })
+      .then((_) => console.log("SMS Enviado com sucesso!"))
+      .catch((er) =>
+        console.error("Erro ao enviar sms\n", JSON.stringify(er, null, 4))
+      );
+    return inserted;
+  }),
 });

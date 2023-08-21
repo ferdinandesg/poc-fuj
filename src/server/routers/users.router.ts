@@ -5,9 +5,11 @@ import { generateSMSCode } from "../utils/sms.code";
 import { Twilio } from "twilio";
 import { z } from "zod";
 const client = new Twilio(
-  "AC9a4c0a9a02687fc7268278ac917f5763",
-  "c8b0cf3394f8d39bc9ff35c6864d5b12"
+  process.env.TWILLIO_ID,
+  process.env.TWILLIO_AUTH
 );
+console.log({ id: process.env.TWILLIO_ID, auth: process.env.TWILLIO_AUTH });
+
 export const usersRouter = router({
   create: procedure.input(userSchema).mutation(async ({ input }) => {
     const code = generateSMSCode();

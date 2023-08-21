@@ -64,7 +64,7 @@ export default function UserWizard() {
   return (
     <Stepper.Root className="md:w-3/4 w-full h-screen mx-auto bg-lime-100 p-4">
       <div className="w-full mb-4">
-        <Link href="/" className="text-xs underline cursor-pointer hover:text-gray-500">Ir para a página principal</Link>
+        <Link href="/user" className="text-xs underline cursor-pointer hover:text-gray-500">Ir para a página principal</Link>
 
       </div>
       <ul className="md:w-1/2 flex justify-between w-full mx-auto mb-4 ">

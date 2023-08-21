@@ -24,4 +24,17 @@ export const promotionsRouter = router({
       if (!updated) throw "Código inválido";
       return { ok: true };
     }),
+  validateCard: procedure
+    .input(z.object({ cardToken: z.string(), document: z.string() }))
+    .mutation(async ({ input }) => {
+      const { cardToken, document } = input;
+      const user = await prisma.user.updateMany({
+        where: {
+          document,
+        },
+        data: { cardToken },
+      });
+      if (!user.count) throw "Usuário não encontrado, contate o administrador";
+      return { ok: true };
+    }),
 });

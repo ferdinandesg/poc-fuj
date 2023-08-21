@@ -18,6 +18,7 @@ model User {
   promotion   Promotion @relation(fields: [promotionId], references: [id])
   // address     Address?  @relation(fields: [addressId], references: [id])
   addressId   String?
+  cardToken   String?
   promotionId String    @db.ObjectId
 }
 

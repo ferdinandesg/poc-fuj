@@ -50,8 +50,8 @@ export default function PhoneConfirm() {
             const phone = getValues().phone.replace(/[^0-9]/g, "")
             const document = getValues().document.replace(/[^0-9]/g, "")
             await validateSmsMutation.mutateAsync({ code: smsCode, phone, document })
-            toast(ToastMessage("Sucesso!", "Seu número foi validado com sucesso!"))
-            router.push("/")
+            toast(ToastMessage("Sucesso!", "Cadastro realizado com sucesso. Vá até um estabelecimento comercial mais próximo para cadastrar a palma da sua mão"))
+            router.push("/user")
         } catch (error) {
 
         }

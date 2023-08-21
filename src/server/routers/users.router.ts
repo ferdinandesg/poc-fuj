@@ -29,11 +29,15 @@ export const usersRouter = router({
     //   );
     return inserted;
   }),
-  // authenticate: procedure.input(userSchema).mutation(async ({input}) => {
-  //     const user = await prisma?.user.findFirst({ where: input })
-  //     if (!user) throw "User not found"
-  //     return user
-  // }),
+  getByDocument: procedure
+    .input(z.object({ document: z.string() }))
+    .mutation(async ({ input }) => {
+      const user = await prisma?.user.findFirst({
+        where: { document: input.document },
+      });
+      if (!user) throw "User not found";
+      return user;
+    }),
   auth: procedure
     .input(z.object({ document: z.string() }))
     .mutation(async ({ input }) => {
@@ -41,22 +45,10 @@ export const usersRouter = router({
         where: {
           document: input.document,
         },
-        select: { promotion: true },
+        select: { promotion: true, document: true },
       });
       if (!user) throw "Usuário não encontrado";
       if (!user.promotion.sms.isVerified) throw "Conta não verificada";
-      return user;
-    }),
-  list: procedure
-    .input(z.object({ document: z.string() }))
-    .mutation(async ({ input }) => {
-      const [user] = await prisma.user.findMany({
-        where: {
-          document: input.document,
-          promotion: { sms: { isVerified: true } },
-        },
-      });
-      if (!user) throw "Usuário não encontrado";
       return user;
     }),
 });

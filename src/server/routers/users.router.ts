@@ -4,10 +4,7 @@ import { userSchema } from "../schemas/user.schema";
 import { generateSMSCode } from "../utils/sms.code";
 import { Twilio } from "twilio";
 import { z } from "zod";
-const client = new Twilio(
-  process.env.TWILLIO_ID,
-  process.env.TWILLIO_AUTH
-);
+
 console.log({ id: process.env.TWILLIO_ID, auth: process.env.TWILLIO_AUTH });
 
 export const usersRouter = router({
@@ -19,6 +16,10 @@ export const usersRouter = router({
     const inserted = await prisma.user.create({
       data: { ...input, promotionId: promotion.id },
     });
+    const client = new Twilio(
+      process.env.TWILLIO_ID,
+      process.env.TWILLIO_AUTH
+    );
     client.messages
       .create({
         from: "+18156058261",
@@ -60,6 +61,10 @@ export const usersRouter = router({
     const inserted = await prisma.user.create({
       data: { ...input, promotionId: promotion.id },
     });
+    const client = new Twilio(
+      process.env.TWILLIO_ID,
+      process.env.TWILLIO_AUTH
+    );
     client.messages
       .create({
         from: "+18156058261",

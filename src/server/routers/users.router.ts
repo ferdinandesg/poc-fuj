@@ -20,16 +20,12 @@ export const usersRouter = router({
     const inserted = await prisma.user.create({
       data: { ...input, promotionId: promotion.id },
     });
-    client.messages
-      .create({
-        from: "+18156058261",
-        to: `+55${inserted.phone}`,
-        body: `Seu código de confirmação é ${code}.`,
-      })
-      .then((_) => console.log("SMS Enviado com sucesso!"))
-      .catch((er) =>
-        console.error("Erro ao enviar sms\n", JSON.stringify(er, null, 4))
-      );
+    await client.messages.create({
+      from: "+18156058261",
+      to: `+55${inserted.phone}`,
+      body: `Seu código de confirmação é ${code}.`,
+    });
+    console.log("SMS Enviado com sucesso!");
     return inserted;
   }),
   getByDocument: procedure
@@ -61,16 +57,12 @@ export const usersRouter = router({
     const inserted = await prisma.user.create({
       data: { ...input, promotionId: promotion.id },
     });
-    client.messages
-      .create({
-        from: "+18156058261",
-        to: `+55${inserted.phone}`,
-        body: `Seu código de confirmação é ${code}.`,
-      })
-      .then((_) => console.log("SMS Enviado com sucesso!"))
-      .catch((er) =>
-        console.error("Erro ao enviar sms\n", JSON.stringify(er, null, 4))
-      );
+    await client.messages.create({
+      from: "+18156058261",
+      to: `+55${inserted.phone}`,
+      body: `Seu código de confirmação é ${code}.`,
+    });
+    console.log("SMS Enviado com sucesso!");
     return inserted;
   }),
 });

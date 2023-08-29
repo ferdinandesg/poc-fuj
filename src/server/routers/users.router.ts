@@ -5,31 +5,30 @@ import { generateSMSCode } from "../utils/sms.code";
 import { Twilio } from "twilio";
 import { z } from "zod";
 
-const client = new Twilio(
-  process.env.TWILLIO_ID,
-  process.env.TWILLIO_AUTH
-);
+const client = new Twilio(process.env.TWILLIO_ID, process.env.TWILLIO_AUTH);
 
 export const usersRouter = router({
   create: procedure.input(userSchema).mutation(async ({ input }) => {
-    const code = generateSMSCode();
-    const promotion = await prisma.promotion.create({
-      data: { sms: { code } },
-    });
-    const inserted = await prisma.user.create({
-      data: { ...input, promotionId: promotion.id },
-    });
-    client.messages
-      .create({
+    try {
+      const code = generateSMSCode();
+      const promotion = await prisma.promotion.create({
+        data: { sms: { code } },
+      });
+      const inserted = await prisma.user.create({
+        data: { ...input, promotionId: promotion.id },
+      });
+      await client.messages.create({
         from: "+18156058261",
         to: `+55${inserted.phone}`,
         body: `Seu código de confirmação é ${code}.`,
-      })
-      .then((_) => console.log("SMS Enviado com sucesso!"))
-      .catch((er) =>
-        console.error("Erro ao enviar sms\n", JSON.stringify(er, null, 4))
-      );
-    return inserted;
+      });
+      console.log("SMS Enviado com sucesso!");
+      return inserted;
+    } catch (error) {
+      console.log(error);
+
+      throw error;
+    }
   }),
   getByDocument: procedure
     .input(z.object({ document: z.string() }))
@@ -60,16 +59,12 @@ export const usersRouter = router({
     const inserted = await prisma.user.create({
       data: { ...input, promotionId: promotion.id },
     });
-    client.messages
-      .create({
-        from: "+18156058261",
-        to: `+55${inserted.phone}`,
-        body: `Seu código de confirmação é ${code}.`,
-      })
-      .then((_) => console.log("SMS Enviado com sucesso!"))
-      .catch((er) =>
-        console.error("Erro ao enviar sms\n", JSON.stringify(er, null, 4))
-      );
+    await client.messages.create({
+      from: "+18156058261",
+      to: `+55${inserted.phone}`,
+      body: `Seu código de confirmação é ${code}.`,
+    });
+    console.log("SMS Enviado com sucesso!");
     return inserted;
   }),
 });

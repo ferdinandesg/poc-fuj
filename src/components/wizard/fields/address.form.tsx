@@ -29,7 +29,7 @@ export default function Address() {
   return (
     <>
       <div className="flex flex-col">
-        <label htmlFor="address" className="font-semibold mb-2">
+        <label htmlFor="address" className="font-semibold mb-2 text-white">
           CEP
         </label>
         <input
@@ -47,7 +47,7 @@ export default function Address() {
           Voltar
         </button>
         <button
-          className="disabled:bg-orange-400 bg-orange-600 rounded text-white p-2"
+          className="disabled:bg-white bg-gray-800 text-white border-gray-600 border disabled:text-gray-600 rounded  p-2"
           disabled={!isCepValid}
           onClick={nextStep}
         >

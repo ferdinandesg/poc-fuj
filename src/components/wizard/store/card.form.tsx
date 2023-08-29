@@ -38,8 +38,8 @@ export default function CardForm() {
         console.log({ response, cardToken });
         setLoading(false);
         setSuccess(true);
-        router.push("/store");
-        toast("Usuário cadastrado com sucesso!");
+        nextStep()
+        toast("Cartão cadastrado com sucesso!");
       } catch (error) {
         console.log({ error });
       }

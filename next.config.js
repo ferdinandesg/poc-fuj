@@ -9,7 +9,7 @@ const nextConfig = {
     return config;
   },
   env: {
-    PMS_URL: "https://fast-one-payment-poc-9d1433ac8f17.herokuapp.com/"
+    PMS_URL: "https://fast-one-payment-poc-9d1433ac8f17.herokuapp.com"
   }
 
 };

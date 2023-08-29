@@ -18,7 +18,7 @@ export function SocketProvider({ children }: { children: ReactNode }) {
   const [socket, setSocket] = useState<Socket>();
 
   useEffect(() => {
-    const instance = io(`${process.env.PMS_URL}/`, {
+    const instance = io(`${process.env.PMS_URL}/web`, {
       reconnectionDelayMax: 10000,
     });
     instance.on("error", (message) => toast(message));

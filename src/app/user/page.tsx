@@ -74,33 +74,34 @@ export default function UserHome() {
           </div>
         </BasicModal>
       )}
-      <header className="w-full bg-lime-500 p-2 flex items-center justify-center sm:h-screen h-[50vh]">
+      <header className="w-full bg-gray-400 p-2 hidden items-center justify-center h-screen sm:flex">
         <span className="text-white">Main page</span>
       </header>
-      <aside className="w-full bg-lime-100 flex-col flex p-2 sm:h-screen h-[50vh]">
+      <aside className="w-full bg-gray-600 flex-col flex p-2 h-screen">
         <div
           className={"h-1/3 flex items-center justify-center"}
           style={{ backgroundImage: src }}
         >
-          Imagem
+          <h2 className="text-white">Escolha a opção desejada:</h2>
+
         </div>
         <div className="flex flex-col h-full justify-around">
           <div className="flex flex-col gap-2">
             <button
               onClick={() => setShowModal(true)}
-              className="p-2 bg-primary bg-orange-300 rounded hover:bg-orange-400 text-gray-800"
+              className="p-2 text-left transition hover:bg-white bg-gray-600 border-white border hover:text-gray-600 text-white rounded "
             >
               Entrar
             </button>
             <Link
-              className="p-2 bg-primary bg-orange-300 rounded hover:bg-orange-400 text-gray-800"
+              className="p-2 transition hover:bg-white bg-gray-600 border-white border hover:text-gray-600 text-white rounded "
               href={"/user/register"}
             >
               Cadastrar
             </Link>
           </div>
 
-          <span className="text-sm mx-auto">
+          <span className="text-sm mx-auto text-white">
             Já começou um cadastro pela loja?{" "}
             <button
               onClick={() => setShowModal(true)}

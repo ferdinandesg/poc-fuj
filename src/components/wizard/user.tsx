@@ -21,13 +21,13 @@ function ActiveStepFormComponent() {
     case 1:
       return (
         <Stepper.Step>
-          <NameForm />
+          <DocumentForm />
         </Stepper.Step>
       );
     case 2:
       return (
         <Stepper.Step>
-          <DocumentForm />
+          <NameForm />
         </Stepper.Step>
       );
     case 3:
@@ -62,9 +62,9 @@ export default function UserWizard() {
     { step: 4, label: "Telefone", icon: <Phone /> },
   ];
   return (
-    <Stepper.Root className="md:w-3/4 w-full h-screen mx-auto bg-lime-100 p-4">
+    <Stepper.Root className="md:w-3/4 w-full h-screen mx-auto bg-gray-600 p-4">
       <div className="w-full mb-4">
-        <Link href="/user" className="text-xs underline cursor-pointer hover:text-gray-500">Ir para a página principal</Link>
+        <Link href="/user" className="text-xs underline cursor-pointer hover:text-gray-200 text-white">Ir para a página principal</Link>
 
       </div>
       <ul className="md:w-1/2 flex justify-between w-full mx-auto mb-4 ">
@@ -74,8 +74,8 @@ export default function UserWizard() {
             className={twMerge(
               "md:p-4 p-2 md:w-24 w-16 rounded flex flex-col items-center border-4 gap-2",
               x.step > step
-                ? "bg-orange-400 border-transparent"
-                : "bg-orange-600 border-white"
+                ? "bg-gray-400 border-transparent"
+                : "bg-gray-600 border-white"
             )}
           >
             <span className="font-semibold text-white">{x.icon}</span>

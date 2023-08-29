@@ -44,7 +44,7 @@ export default function DocumentForm() {
           Voltar
         </button>
         <button
-          className="disabled:bg-orange-400 bg-orange-600 rounded text-white p-2"
+          className="disabled:bg-white bg-gray-800 text-white border-gray-600 border disabled:text-gray-600 rounded  p-2"
           disabled={!isValidDocument}
           onClick={nextStep}
         >
@@ -61,7 +61,7 @@ interface DocumentInputProps extends HTMLProps<HTMLInputElement> {
     any>
 }
 export const DocumentInput = ({ showError, register, ...props }: DocumentInputProps) => <div className="flex flex-col">
-  <label htmlFor="document" className="font-semibold mb-2">
+  <label htmlFor="document" className="font-semibold mb-2 text-white">
     CPF
   </label>
   <input

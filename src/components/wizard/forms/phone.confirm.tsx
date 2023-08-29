@@ -28,7 +28,7 @@ export default function PhoneConfirm() {
     }, [validateSmsMutation.error])
     const Input = ({ i }: { i: number }) => {
         return <input onChange={handleInputChange} type="text" id={`input-${i}`} name={`input-${i}`}
-            className="text-center text-lg rounded shadow-inner shadow-gray-300 border-gray-300 focus:shadow-orange-300 focus:border focus:border-orange-500 border border-transparent transition p-4"
+            className="text-center text-lg rounded shadow-inner shadow-gray-300 border-gray-300 focus:shadow-gray-300 focus:border focus:border-gray-500 border border-transparent transition p-4"
             maxLength={1}
             size={1}
             min={0}
@@ -57,16 +57,16 @@ export default function PhoneConfirm() {
         }
     }
 
-    return <div className="md:w-3/4 w-full h-screen mx-auto bg-lime-100 p-4">
-        <h2 className="font-bold text-5xl break-normal w-2/3 mb-4">Nós te enviamos um código por SMS</h2>
-        <span className="flex">No número: {getValues().phone} <MailCheck className="ml-2" color="green" /> </span>
+    return <div className="md:w-3/4 w-full h-screen mx-auto bg-gray-600 p-4">
+        <h2 className="font-bold text-5xl break-normal w-2/3 mb-4 text-white">Nós te enviamos um código por SMS</h2>
+        <p className="flex text-white">No número: {getValues().phone} <MailCheck className="ml-2" color="lightgreen" /> </p>
         <form onSubmit={e => handleForm(e)} id="form" className="flex flex-col">
             <div className="flex gap-2 p-2 justify-center">
                 {Array(4).fill(null).map((_, i) => <Input key={`input-${i}`} i={i} />)}
             </div>
             <div className="flex justify-end mt-3">
                 <button
-                    className="disabled:bg-orange-400 bg-orange-600 rounded text-white p-2 w-1/2 flex justify-center"
+                    className="disabled:bg-gray-400 bg-gray-800 rounded text-white p-2 w-1/2 flex justify-center"
                     disabled={validateSmsMutation.isLoading}
                 >
                     <span className="relative flex w-1/2 justify-center mx-auto" >

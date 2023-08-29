@@ -41,10 +41,10 @@ export default function ConfirmationForm() {
         <div className="md:flex-row gap-2 flex flex-col flex-wrap">
             {Object.entries(getValues()).map(([key, value]) =>
                 <div key={`form-${key}`} className="flex flex-col flex-grow">
-                    <label className="text-sm text-gray-600 font-semibold">
+                    <label className="text-sm text-white font-semibold">
                         {renderLabel(key)}
                     </label>
-                    <span className="p-1">{value}</span>
+                    <span className="p-1 text-gray-100">{value}</span>
                 </div>
             )}
         </div>
@@ -58,7 +58,7 @@ export default function ConfirmationForm() {
 
 
             <button
-                className="disabled:bg-orange-400 bg-orange-600 rounded text-white p-2 w-1/2 flex justify-center"
+                className="disabled:bg-white bg-gray-800 text-white border-gray-600 border disabled:text-gray-600 rounded p-2 w-1/2"
                 disabled={createUser.isLoading}
                 onClick={create}
             >

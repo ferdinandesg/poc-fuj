@@ -24,34 +24,7 @@ const maskCPF = (doc: string) => {
 export default function UserHome() {
     const router = useRouter()
     return (
-        <main className="sm:flex-row min-h-screen min-w-screen flex flex-col-reverse">
-            <header className="w-full bg-lime-500 p-2 flex items-center justify-center sm:h-screen h-[50vh]">
-                <span className="text-white">Main page</span>
-            </header>
-            <aside className="w-full bg-lime-100 flex-col flex p-2 sm:h-screen h-[50vh]">
-                <div
-                    className={"h-1/3 flex items-center justify-center"}
-                >
-                    Imagem
-                </div>
-                <div className="flex flex-col justify-around">
-                    <div className="flex flex-col gap-2">
-                        <Link
-                            href="user"
-                            className="p-2 bg-primary bg-orange-300 rounded hover:bg-orange-400 text-gray-800"
-                        >
-                            Painel usuário
-                        </Link>
-                        <Link
-                            className="p-2 bg-primary bg-orange-300 rounded hover:bg-orange-400 text-gray-800"
-                            href={"/store"}
-                        >
-                            Painel Lojista
-                        </Link>
-                    </div>
 
-                </div>
-            </aside>
-        </main >
+        <div>None</div>
     );
 }

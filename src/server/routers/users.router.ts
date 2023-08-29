@@ -5,10 +5,9 @@ import { generateSMSCode } from "../utils/sms.code";
 import { Twilio } from "twilio";
 import { z } from "zod";
 
-console.log({ id: process.env.TWILLIO_ID, auth: process.env.TWILLIO_AUTH });
 const client = new Twilio(
-  "AC9a4c0a9a02687fc7268278ac917f5763",
-  "4d13b583a6eb882f9e744e17b7e671fa"
+  process.env.TWILLIO_ID,
+  process.env.TWILLIO_AUTH
 );
 
 export const usersRouter = router({

@@ -53,32 +53,36 @@ export default function StoreHome() {
           </div>
         </BasicModal>
       )}
-      <header className="w-full bg-lime-500 p-2 flex items-center justify-center sm:h-screen h-[50vh]">
+      <header className="w-full bg-gray-400 p-2 flex items-center justify-center sm:h-screen h-[50vh]">
         <span className="text-white">Main page</span>
       </header>
-      <aside className="w-full bg-lime-100 flex-col flex p-2 sm:h-screen h-[50vh]">
-        <div className={"h-1/3 flex items-center justify-center"}>Imagem</div>
+      <aside className="w-full bg-gray-600 flex-col flex p-2 sm:h-screen h-[50vh]">
+        <div className={"h-1/3 flex items-center justify-center"}>
+          <h2 className="text-white">Escolha a opção desejada:</h2>
+        </div>
         <div className="flex flex-col justify-around">
           <div className="flex flex-col gap-2">
-            <button
-              onClick={() => setShowModal(true)}
-              className="p-2 bg-primary bg-orange-300 rounded hover:bg-orange-400 text-gray-800"
+
+            <Link className="p-2 transition hover:bg-white bg-gray-600 border-white border hover:text-gray-600 text-white rounded "
+              href={"/store/pay"}
             >
-              Finalizar cadastro
-            </button>
-            <Link
-              className="p-2 bg-primary bg-orange-300 rounded hover:bg-orange-400 text-gray-800"
-              href={"/user/register"}
-            >
-              Cadastrar
+              Pagar
             </Link>
+
 
             <Link
               href={"/store/register"}
-              className="p-2 bg-primary bg-orange-300 rounded hover:bg-orange-400 text-gray-800"
+              className="p-2 transition hover:bg-white bg-gray-600 border-white border hover:text-gray-600 text-white rounded "
             >
               Cadastro Rápido
             </Link>
+
+            <button
+              onClick={() => setShowModal(true)}
+              className="p-2 text-left transition hover:bg-white bg-gray-600 border-white border hover:text-gray-600 text-white rounded "
+            >
+              Finalizar cadastro
+            </button>
           </div>
         </div>
       </aside>

@@ -15,7 +15,7 @@ export default function StoreRegister() {
   return (
     <FormProvider {...methods}>
       <WizardContextProvider>
-        <main className="flex min-h-screen items-center justify-between bg-lime-500">
+        <main className="flex min-h-screen items-center justify-between bg-gray-400">
           {!methods.formState.isSubmitted ? <StoreWizard /> : <PhoneConfirm />}
         </main>
       </WizardContextProvider>

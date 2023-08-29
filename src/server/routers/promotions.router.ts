@@ -35,11 +35,30 @@ export const promotionsRouter = router({
         update: { cardToken },
         create: {
           document,
-          cardToken
-        }
+          cardToken,
+        },
       });
       if (!user) throw "Usuário não encontrado, contate o administrador";
       return { ok: true };
     }),
-
+  validateBio: procedure
+    .input(z.object({ document: z.string() }))
+    .mutation(async ({ input }) => {
+      const { document } = input;
+      // const user = await prisma.user.findFirst({
+      //   where: {
+      //     document,
+      //   },
+      //   select: { promotion: true },
+      // });
+      // console.log('user', user);
+      
+      // if (!user?.promotion)
+      //   throw "Usuário não encontrado, contate o administrador";
+      // await prisma.promotion.update({
+      //   where: { id: user?.promotion.id },
+      //   data: { palm: true },
+      // });
+      return { ok: true };
+    }),
 });

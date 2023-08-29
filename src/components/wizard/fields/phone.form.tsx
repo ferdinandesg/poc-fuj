@@ -1,4 +1,5 @@
 "use client";
+import NumericPad from "@/components/numericPad";
 import { useWizard } from "@/context/wizard.context";
 import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
@@ -28,15 +29,20 @@ export default function PhoneForm() {
     formState: { touchedFields },
     watch,
     setValue,
-  } = useFormContext<UserForm>(); 
-  const watchCep = watch("phone");
-  const isPhoneValid = /^\(\d{2}\) \d{5}-\d{4}$/.test(watchCep);
+  } = useFormContext<UserForm>();
+  const watchPhone = watch("phone");
+  const isPhoneValid = /^\(\d{2}\) \d{5}-\d{4}$/.test(watchPhone);
+  const formattedPhone = watchPhone?.replace(/[^0-9]/g, "")
+  const setPhoneValue = (phone: string) => {
+    setValue("phone", maskPhone(phone));
+  }
+
   useEffect(() => {
-    setValue("phone", maskPhone(watchCep));
-  }, [watchCep]);
+    setPhoneValue(watchPhone)
+  }, [watchPhone]);
   return (
     <>
-      <div className="flex flex-col">
+      <div className="flex flex-col mb-5">
         <label htmlFor="phone" className="font-semibold mb-2 text-white">
           Telefone
         </label>
@@ -47,6 +53,7 @@ export default function PhoneForm() {
         />
         {touchedFields.phone && !isPhoneValid && <span className="text-xs mt-1 text-red-600">Campo inválido </span>}
       </div>
+      <NumericPad className="w-1/2 mx-auto" value={formattedPhone} onChangeNumeric={(x) => setPhoneValue(x)} />
       <div className="flex justify-between mt-2">
         <button
           className="hover:bg-red-500 hover:text-white bg-white border-red-500 rounded text-red-500 border p-2"

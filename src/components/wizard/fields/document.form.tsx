@@ -1,4 +1,5 @@
 "use client";
+import NumericPad from "@/components/numericPad";
 import { useWizard } from "@/context/wizard.context";
 import { useEffect, HTMLProps } from "react";
 import { UseFormRegister, useFormContext } from "react-hook-form";
@@ -30,19 +31,22 @@ export default function DocumentForm() {
   } = useFormContext<UserForm>();
   const watchDocument = watch("document");
   const isValidDocument = invalidDocumentRegex.test(watchDocument);
+  const formattedDocument = watchDocument?.replace(/[^0-9]/g, "")
+
+
+  const setDocumentValue = (phone: string) => {
+    setValue("document", maskCPF(phone));
+  }
+
   useEffect(() => {
-    setValue("document", maskCPF(watchDocument));
+    setDocumentValue(watchDocument)
   }, [watchDocument]);
   return (
     <>
-      <DocumentInput register={register} showError={touchedFields.document && !isValidDocument} />
-      <div className="flex justify-between mt-2">
-        <button
-          className="hover:bg-red-500 hover:text-white bg-white border-red-500 rounded text-red-500 border p-2"
-          onClick={backStep}
-        >
-          Voltar
-        </button>
+      <DocumentInput className="mb-5" register={register} showError={touchedFields.document && !isValidDocument} />
+      <NumericPad className="w-1/2 mx-auto" value={formattedDocument} onChangeNumeric={(x) => setDocumentValue(x)} />
+
+      <div className="flex justify-end mt-2">
         <button
           className="disabled:bg-white bg-gray-800 text-white border-gray-600 border disabled:text-gray-600 rounded  p-2"
           disabled={!isValidDocument}

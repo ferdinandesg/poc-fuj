@@ -1,11 +1,24 @@
+'use client'
+import NumericPad from '@/components/numericPad';
+import ConfirmationForm from '@/components/wizard/forms/confirmation.form';
+import PayWizard from '@/components/wizard/pay';
+import { WizardContextProvider } from '@/context/wizard.context';
+import { useState } from 'react'
+import { FormProvider, useForm } from 'react-hook-form';
+
+interface PaymentForm {
+    amount: string;
+}
 
 export default function Pay() {
+    const methods = useForm<PaymentForm>();
 
 
-    return <div className="bg-gray-600 h-screen">
-        <div className="grid grid-cols-3 gap-3">
-            {Array.from({ length: 9 }, (_, i) => i + 1).map(x => <div className="text-white w-1/2 p-2 rounded-full border border-white text-center" key={`char-${x}`}>{x}</div>)}
-        </div>
-
-    </div>
+    return <FormProvider {...methods}>
+        <WizardContextProvider>
+            <main className="flex min-h-screen items-center justify-between bg-gray-400">
+                {!methods.formState.isSubmitted ? <PayWizard /> : <ConfirmationForm />}
+            </main>
+        </WizardContextProvider>
+    </FormProvider>
 }

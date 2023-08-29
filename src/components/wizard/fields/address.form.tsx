@@ -1,4 +1,5 @@
 "use client";
+import NumericPad from "@/components/numericPad";
 import { useWizard } from "@/context/wizard.context";
 import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
@@ -23,12 +24,18 @@ export default function Address() {
 
   const watchCep = watch("addressId");
   const isCepValid = /^\d{5}-\d{3}$/.test(watchCep);
+  const formattedCep = watchCep?.replace(/[^0-9]/g, "")
+
+  const setAddressValue = (phone: string) => {
+    setValue("addressId", maskCEP(phone));
+  }
+
   useEffect(() => {
-    setValue("addressId", maskCEP(watchCep));
+    setAddressValue(watchCep)
   }, [watchCep]);
   return (
     <>
-      <div className="flex flex-col">
+      <div className="flex flex-col mb-5">
         <label htmlFor="address" className="font-semibold mb-2 text-white">
           CEP
         </label>
@@ -39,6 +46,7 @@ export default function Address() {
           {...register("addressId")}
         />
       </div>
+      <NumericPad className="w-1/2 mx-auto" value={formattedCep} onChangeNumeric={(x) => setAddressValue(x)} />
       <div className="flex justify-between mt-2">
         <button
           className="hover:bg-red-500 hover:text-white bg-white border-red-500 rounded text-red-500 border p-2"

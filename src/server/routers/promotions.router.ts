@@ -45,14 +45,14 @@ export const promotionsRouter = router({
     .input(z.object({ document: z.string() }))
     .mutation(async ({ input }) => {
       const { document } = input;
-      // const user = await prisma.user.findFirst({
-      //   where: {
-      //     document,
-      //   },
-      //   select: { promotion: true },
-      // });
-      // console.log('user', user);
-      
+      const user = await prisma.user.findFirst({
+        where: {
+          document,
+        },
+        select: { promotion: true },
+      });
+      console.log("user", user);
+
       // if (!user?.promotion)
       //   throw "Usuário não encontrado, contate o administrador";
       // await prisma.promotion.update({

@@ -1,8 +1,6 @@
 "use client";
 import { useWizard } from "@/context/wizard.context";
 import Stepper from "../stepper";
-import NameForm from "./fields/name.form";
-import PhoneForm from "./fields/phone.form";
 import { twMerge } from "tailwind-merge";
 import { ReactNode } from "react";
 import { CreditCard, Fingerprint, User } from "lucide-react";
@@ -25,7 +23,6 @@ function ActiveStepFormComponent() {
                     <DocumentForm />
                 </Stepper.Step>
             );
-
         case 2:
             return (
                 <Stepper.Step>
@@ -61,7 +58,7 @@ export default function StoreWizard() {
                 <Link href="/store" className="text-xs underline cursor-pointer text-white">Ir para a página principal</Link>
 
             </div>
-            <ul className="md:w-1/4 flex justify-between w-full mx-auto mb-4 ">
+            <ul className="md:w-1/4 flex sm:justify-between justify-center w-full mx-auto mb-4 ">
                 {STEPS.map((x) => (
                     <li
                         key={`step-${x.label}`}

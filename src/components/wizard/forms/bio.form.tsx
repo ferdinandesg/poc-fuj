@@ -26,16 +26,14 @@ export default function BioForm() {
     const { socket } = useSocket();
     const formattedDocument = getValues().document.replace(/[^0-9]/g, "");
     useEffect(() => {
-        socket?.emit("register", () => formattedDocument);
-        socket?.on("putIn", (message) => { setInfoMessage("Posicione seu dedo no leitor...") })
-        socket?.on("takeOut", (message) => { setInfoMessage("Remova o dedo...") })
-        socket?.on("started", (message) => { toast("Leitura iniciada") })
-        socket?.on("success", async (message) => {
+        socket?.emit("register", formattedDocument);
+        socket?.on("putIn", () => { setInfoMessage("Posicione seu dedo no leitor...") })
+        socket?.on("takeOut", () => { setInfoMessage("Remova o dedo...") })
+        socket?.on("started", () => { toast("Leitura iniciada") })
+        socket?.on("success", async () => {
             try {
-                console.log('SUCCESS');
                 await validateBio.mutateAsync({ document: formattedDocument });
-                nextStep()
-                //router.push("/store");
+                router.push("/store");
                 toast("Biometria cadastrada com sucesso!");
             } catch (error) {
                 console.log({ error });

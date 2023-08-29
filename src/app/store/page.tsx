@@ -53,10 +53,10 @@ export default function StoreHome() {
           </div>
         </BasicModal>
       )}
-      <header className="w-full bg-gray-400 p-2 flex items-center justify-center sm:h-screen h-[50vh]">
+      <header className="w-full bg-gray-400 p-2 hidden items-center justify-center h-screen sm:flex">
         <span className="text-white">Main page</span>
       </header>
-      <aside className="w-full bg-gray-600 flex-col flex p-2 sm:h-screen h-[50vh]">
+      <aside className="w-full bg-gray-600 flex-col flex p-2 h-screen">
         <div className={"h-1/3 flex items-center justify-center"}>
           <h2 className="text-white">Escolha a opção desejada:</h2>
         </div>

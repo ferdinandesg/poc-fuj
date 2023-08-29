@@ -49,9 +49,10 @@ export const promotionsRouter = router({
         where: {
           document,
         },
-        select: { promotion: true },
+        include: { promotion: true },
       });
       console.log("user", user);
+      if (!user) throw "Usuário não encontrado";
 
       // if (!user?.promotion)
       //   throw "Usuário não encontrado, contate o administrador";
@@ -59,6 +60,6 @@ export const promotionsRouter = router({
       //   where: { id: user?.promotion.id },
       //   data: { palm: true },
       // });
-      return { ok: true };
+      return user;
     }),
 });

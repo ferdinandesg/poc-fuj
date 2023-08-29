@@ -13,28 +13,34 @@ interface UserForm {
     phone: string;
     document: string;
 }
-export default function BioForm() {
-    const router = useRouter();
+export default function BioFormIdentify() {
     const { nextStep } = useWizard();
     const {
-        getValues,
     } = useFormContext<UserForm>();
+    const {
+        setValue,
+      } = useFormContext<UserForm>();
     const [infoMessage, setInfoMessage] = useState<string>("Posicione seu dedo no leitor");
     const [isLoading, setLoading] = useState<boolean>(false);
     const [isSuccess, setSuccess] = useState<boolean>(false);
     const validateBio = trpc.promotions.validateBio.useMutation();
     const { socket } = useSocket();
-    const formattedDocument = getValues().document.replace(/[^0-9]/g, "");
     useEffect(() => {
-        socket?.emit("register", formattedDocument);
+        socket?.emit("identify");
         socket?.on("putIn", () => { setInfoMessage("Posicione seu dedo no leitor...") })
         socket?.on("takeOut", () => { setInfoMessage("Remova o dedo...") })
         socket?.on("started", () => { toast("Leitura iniciada") })
-        socket?.on("success", async () => {
+        socket?.on("success", async (document: string) => {
             try {
-                await validateBio.mutateAsync({ document: formattedDocument });
-                router.push("/store");
-                toast("Biometria cadastrada com sucesso!");
+                console.log({document});
+                
+                toast("Carregando informações de usuário...!");
+                const user = await validateBio.mutateAsync({ document });
+                if (user.name) setValue("name", user.name);
+                if (user.phone) setValue("phone", user?.phone);
+                if (user.addressId) setValue("address", user.addressId || "");
+                nextStep()
+                toast("Biometria validada com sucesso!");
             } catch (error) {
                 console.log({ error });
             }

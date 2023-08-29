@@ -1,6 +1,6 @@
 'use client'
 import NumericPad from '@/components/numericPad';
-import ConfirmationForm from '@/components/wizard/forms/confirmation.form';
+import ConfirmationForm from '@/components/wizard/forms/confirmation.form.register';
 import PayWizard from '@/components/wizard/pay';
 import { WizardContextProvider } from '@/context/wizard.context';
 import { useState } from 'react'

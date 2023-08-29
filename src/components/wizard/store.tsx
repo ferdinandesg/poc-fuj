@@ -3,12 +3,12 @@ import { useWizard } from "@/context/wizard.context";
 import Stepper from "../stepper";
 import { twMerge } from "tailwind-merge";
 import { ReactNode } from "react";
-import { CreditCard, Fingerprint, User } from "lucide-react";
+import { Contact2, CreditCard, Fingerprint, User } from "lucide-react";
 import Link from "next/link";
-import ConfirmationForm from "./forms/confirmation.form";
+import ConfirmationForm from "./forms/confirmation.form.register";
 import CardForm from "./store/card.form";
 import DocumentForm from "./fields/document.form";
-import BioForm from "./forms/bio.form";
+import BioFormRegister from "./forms/bio.form.register";
 interface Step {
     step: number;
     label: string;
@@ -31,7 +31,7 @@ function ActiveStepFormComponent() {
             ); case 3:
             return (
                 <Stepper.Step>
-                    <BioForm />
+                    <BioFormRegister />
                 </Stepper.Step>
             );
         case 4:
@@ -51,6 +51,7 @@ export default function StoreWizard() {
         { step: 1, label: "CPF", icon: <User /> },
         { step: 2, label: "Cartão", icon: <CreditCard /> },
         { step: 3, label: "Biometria", icon: <Fingerprint /> },
+        { step: 4, label: "Confirmação", icon: <Contact2 /> },
     ];
     return (
         <Stepper.Root className="md:w-3/4 w-full h-screen mx-auto bg-gray-600 p-4">

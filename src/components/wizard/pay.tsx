@@ -7,10 +7,12 @@ import AddressForm from "./fields/address.form";
 import PhoneForm from "./fields/phone.form";
 import { twMerge } from "tailwind-merge";
 import { ReactNode } from "react";
-import { User, Phone, Home, Wallet2, CircleDollarSign, Fingerprint } from "lucide-react";
+import { User, Phone, Home, Wallet2, CircleDollarSign, Fingerprint, Contact2, Check } from "lucide-react";
 import ConfirmationForm from "./forms/confirmation.form";
 import Link from "next/link";
 import PaymentForm from "./forms/pay.form";
+import BioFormIdentify from "./forms/bio.form.identify";
+import SuccessForm from "./forms/success.form";
 interface Step {
     step: number;
     label: string;
@@ -25,6 +27,23 @@ function ActiveStepFormComponent() {
                     <PaymentForm />
                 </Stepper.Step>
             );
+        case 2:
+            return (
+                <Stepper.Step>
+                    <BioFormIdentify />
+                </Stepper.Step>
+            );
+        case 3:
+            return (
+                <Stepper.Step>
+                    <ConfirmationForm />
+                </Stepper.Step>
+            ); case 3:
+            return (
+                <Stepper.Step>
+                    <SuccessForm />
+                </Stepper.Step>
+            );
         default:
             return null;
     }
@@ -35,14 +54,16 @@ export default function PayWizard() {
     const STEPS: Step[] = [
         { step: 1, label: "Valor", icon: <CircleDollarSign /> },
         { step: 2, label: "Biometria", icon: <Fingerprint /> },
+        { step: 3, label: "Confirmação", icon: <Contact2 /> },
+        { step: 4, label: "Sucesso!", icon: <Check /> },
     ];
     return (
         <Stepper.Root className="md:w-3/4 w-full h-screen mx-auto bg-gray-600 p-4">
             <div className="w-full mb-4">
-                <Link href="/user" className="text-xs underline cursor-pointer hover:text-gray-200 text-white">Ir para a página principal</Link>
+                <Link href="/store" className="text-xs underline cursor-pointer hover:text-gray-200 text-white">Ir para a página principal</Link>
 
             </div>
-            <ul className="md:w-1/2 flex justify-between w-full mx-auto mb-4 ">
+            <ul className="md:w-1/2 flex justify-center gap-2 w-full mx-auto mb-4 ">
                 {STEPS.map((x) => (
                     <li
                         key={`step-${x.label}`}

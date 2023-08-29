@@ -8,8 +8,8 @@ import PhoneForm from "./fields/phone.form";
 import { twMerge } from "tailwind-merge";
 import { ReactNode } from "react";
 import { User, Phone, Home, Wallet2 } from "lucide-react";
-import ConfirmationForm from "./forms/confirmation.form";
 import Link from "next/link";
+import ConfirmationFormRegister from "./forms/confirmation.form.register";
 interface Step {
   step: number;
   label: string;
@@ -45,7 +45,7 @@ function ActiveStepFormComponent() {
     case 5:
       return (
         <Stepper.Step>
-          <ConfirmationForm />
+          <ConfirmationFormRegister />
         </Stepper.Step>
       );
     default:

@@ -22,10 +22,22 @@ const renderLabel = (key: string) => {
     }
 }
 
-export default function ConfirmationForm() {
-    const { nextStep, backStep } = useWizard();
-    const { getValues } = useFormContext<UserForm>();
+export default function ConfirmationFormRegister() {
+    const { backStep } = useWizard();
+    const { getValues, handleSubmit, formState: { isValid } } = useFormContext<UserForm>();
+    const createUser = trpc.users.create.useMutation()
+    const create = handleSubmit(async (formData) => {
+        try {
+            if (!isValid) return;
+            formData.phone = formData.phone.replace(/[^0-9]/g, "")
+            formData.document = formData.document.replace(/[^0-9]/g, "")
+            formData.addressId = formData.addressId.replace(/[^0-9]/g, "")
+            await createUser.mutateAsync(formData)
+        } catch (error) {
+            console.log({ error });
 
+        }
+    });
     return <>
         <div className="md:flex-row gap-2 flex flex-col flex-wrap">
             {Object.entries(getValues()).map(([key, value]) =>
@@ -48,12 +60,12 @@ export default function ConfirmationForm() {
 
             <button
                 className="disabled:bg-white bg-gray-800 text-white border-gray-600 border disabled:text-gray-600 rounded p-2 w-1/2"
-
-                onClick={nextStep}
+                disabled={createUser.isLoading}
+                onClick={create}
             >
                 <span className="relative flex w-1/2 justify-center mx-auto" >
-                    Realizar pagamento
-
+                    Confirmar
+                    {createUser.isLoading && <Loader className="absolute right-5 animate-spin" />}
                 </span>
             </button>
         </div>

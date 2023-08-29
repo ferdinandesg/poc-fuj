@@ -2,12 +2,6 @@
 import { BasicModal } from "@/components/modal/basic.modal";
 import { useModal } from "@/context/modal.context";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
-import { useForm } from "react-hook-form";
-import { HTMLProps } from "react";
-import { UseFormRegister } from "react-hook-form";
-import { toast } from "react-toastify";
-import { trpc } from "@/utils/trpc";
 import { useRouter } from "next/navigation";
 
 const maskCPF = (doc: string) => {
@@ -24,7 +18,32 @@ const maskCPF = (doc: string) => {
 export default function UserHome() {
     const router = useRouter()
     return (
+        <main className="sm:flex-row min-h-screen min-w-screen flex flex-col-reverse">
+            <header className="w-full bg-gray-400 p-2 flex items-center justify-center sm:h-screen h-[50vh]">
+                <span className="text-white">Main page</span>
+            </header>
+            <aside className="w-full bg-gray-600 flex-col flex p-2 sm:h-screen h-[50vh]">
+                <div className={"h-1/3 flex items-center justify-center"}>
+                    <h2 className="text-white">Escolha a opção desejada:</h2>
+                </div>
+                <div className="flex flex-col justify-around">
+                    <div className="flex flex-col gap-2">
+                        <Link
+                            href="user"
+                            className="p-2 text-left transition hover:bg-white bg-gray-600 border-white border hover:text-gray-600 text-white rounded "
+                        >
+                            Painel usuário
+                        </Link>
+                        <Link
+                            className="p-2 text-left transition hover:bg-white bg-gray-600 border-white border hover:text-gray-600 text-white rounded "
+                            href={"/store"}
+                        >
+                            Painel Lojista
+                        </Link>
+                    </div>
 
-        <div>None</div>
+                </div>
+            </aside>
+        </main >
     );
 }

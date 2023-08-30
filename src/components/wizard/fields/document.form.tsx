@@ -33,7 +33,6 @@ export default function DocumentForm() {
   const isValidDocument = invalidDocumentRegex.test(watchDocument);
   const formattedDocument = watchDocument?.replace(/[^0-9]/g, "")
 
-
   const setDocumentValue = (phone: string) => {
     setValue("document", maskCPF(phone));
   }
@@ -41,6 +40,7 @@ export default function DocumentForm() {
   useEffect(() => {
     setDocumentValue(watchDocument)
   }, [watchDocument]);
+  
   return (
     <>
       <DocumentInput className="mb-5" register={register} showError={touchedFields.document && !isValidDocument} />

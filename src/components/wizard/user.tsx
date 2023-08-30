@@ -9,7 +9,7 @@ import { twMerge } from "tailwind-merge";
 import { ReactNode } from "react";
 import { User, Phone, Home, Wallet2 } from "lucide-react";
 import Link from "next/link";
-import ConfirmationFormRegister from "./forms/confirmation.form.register";
+import ConfirmationFormRegister from "./forms/register/confirmation.form";
 interface Step {
   step: number;
   label: string;
@@ -21,13 +21,13 @@ function ActiveStepFormComponent() {
     case 1:
       return (
         <Stepper.Step>
-          <DocumentForm />
+          <NameForm />
         </Stepper.Step>
       );
     case 2:
       return (
         <Stepper.Step>
-          <NameForm />
+          <DocumentForm />
         </Stepper.Step>
       );
     case 3:
@@ -64,8 +64,12 @@ export default function UserWizard() {
   return (
     <Stepper.Root className="md:w-3/4 w-full h-screen mx-auto bg-gray-600 p-4">
       <div className="w-full mb-4">
-        <Link href="/user" className="text-xs underline cursor-pointer hover:text-gray-200 text-white">Ir para a página principal</Link>
-
+        <Link
+          href="/user"
+          className="text-xs underline cursor-pointer hover:text-gray-200 text-white"
+        >
+          Ir para a página principal
+        </Link>
       </div>
       <ul className="md:w-1/2 flex justify-between w-full mx-auto mb-4 ">
         {STEPS.map((x) => (
@@ -79,7 +83,9 @@ export default function UserWizard() {
             )}
           >
             <span className="font-semibold text-white">{x.icon}</span>
-            <span className="text-white text-sm hidden md:block">{x.label}</span>
+            <span className="text-white text-sm hidden md:block">
+              {x.label}
+            </span>
           </li>
         ))}
       </ul>

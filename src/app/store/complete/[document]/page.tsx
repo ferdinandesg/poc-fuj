@@ -1,20 +1,37 @@
-'use client'
-import CardForm from "@/components/wizard/fields/card.form"
-import { useState } from 'react'
+"use client";
+import { WizardContextProvider } from "@/context/wizard.context";
+import { useForm, FormProvider } from "react-hook-form";
+import PhoneConfirm from "@/components/wizard/forms/phone.confirm";
+import StoreWizard from "@/components/wizard/store";
+import CompleteWizard from "@/components/wizard/complete";
+import SuccessForm from "@/components/wizard/forms/success.form";
+interface UserForm {
+  name: string;
+  email: string;
+  phone: string;
+  document: string;
+}
 
 interface CompleteRegisterParams {
-    params: {
-        document: string
-    }
+  params: {
+    document: string;
+  };
 }
+
 export default function Complete({ params }: CompleteRegisterParams) {
-    return <div className="bg-lime-500">
-        <div className="md:w-3/4 w-full h-screen mx-auto bg-lime-100 p-4">
-            <h2 className="font-bold text-5xl break-normal w-2/3 mb-4">Finalizando cadastro!</h2>
-            <span className="flex">Aproxime o cartão no validador ao lado</span>
-            <div className="flex  justify-center items-center h-1/3">
-                <CardForm document={params.document} />
-            </div>
-        </div>
-    </div>
+  const methods = useForm<UserForm>();
+
+  return (
+    <FormProvider {...methods}>
+      <WizardContextProvider>
+        <main className="flex min-h-screen items-center justify-between bg-gray-400">
+          {!methods.formState.isSubmitted ? (
+            <CompleteWizard document={params.document} />
+          ) : (
+            <SuccessForm />
+          )}
+        </main>
+      </WizardContextProvider>
+    </FormProvider>
+  );
 }

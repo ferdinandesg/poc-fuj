@@ -49,17 +49,13 @@ export const promotionsRouter = router({
         where: {
           document,
         },
-        include: { promotion: true },
       });
-      console.log("user", user);
       if (!user) throw "Usuário não encontrado";
-
-      // if (!user?.promotion)
-      //   throw "Usuário não encontrado, contate o administrador";
-      // await prisma.promotion.update({
-      //   where: { id: user?.promotion.id },
-      //   data: { palm: true },
-      // });
+      if (user.promotionId)
+        await prisma.promotion.update({
+          where: { id: user?.promotionId },
+          data: { palm: true },
+        });
       return user;
     }),
 });

@@ -1,54 +1,36 @@
 "use client";
 import { useWizard } from "@/context/wizard.context";
 import Stepper from "../stepper";
-import NameForm from "./fields/name.form";
-import DocumentForm from "./fields/document.form";
-import AddressForm from "./fields/address.form";
-import PhoneForm from "./fields/phone.form";
 import { twMerge } from "tailwind-merge";
-import { ReactNode } from "react";
-import {
-  User,
-  Phone,
-  Home,
-  Wallet2,
-  CircleDollarSign,
-  Fingerprint,
-  Contact2,
-  Check,
-} from "lucide-react";
-import ConfirmationForm from "./forms/confirmation.form";
+import { ReactNode, useEffect, useState } from "react";
+import { Fingerprint, Contact2, CreditCard } from "lucide-react";
 import Link from "next/link";
-import PaymentForm from "./forms/pay.form";
-import BioFormIdentify from "./forms/bio.form.identify";
 import SuccessForm from "./forms/success.form";
+import BioFormRegister from "./forms/register/bio.form";
+import { trpc } from "@/utils/trpc";
+import { useFormContext } from "react-hook-form";
+import CardFormComplete from "./forms/complete/card.form.complete";
 interface Step {
   step: number;
   label: string;
   icon: ReactNode;
 }
-function ActiveStepFormComponent() {
+function ActiveStepFormComponent({ document }: CompleteWizardProps) {
   const { step } = useWizard();
   switch (step) {
     case 1:
       return (
-        <Stepper.Step className="w-full">
-          <PaymentForm />
+        <Stepper.Step>
+          <CardFormComplete />
         </Stepper.Step>
       );
     case 2:
       return (
         <Stepper.Step>
-          <BioFormIdentify />
+          <BioFormRegister />
         </Stepper.Step>
       );
     case 3:
-      return (
-        <Stepper.Step>
-          <ConfirmationForm />
-        </Stepper.Step>
-      );
-    case 4:
       return (
         <Stepper.Step>
           <SuccessForm />
@@ -59,14 +41,35 @@ function ActiveStepFormComponent() {
   }
 }
 
-export default function PayWizard() {
+type CompleteWizardProps = {
+  document: string;
+};
+export default function CompleteWizard({ document }: CompleteWizardProps) {
+  const [isLoading, setLoading] = useState<boolean>(true);
+  const {
+    setValue,
+    formState: { touchedFields },
+  } = useFormContext();
+  const userByDocumentMutation = trpc.users.getByDocument.useMutation();
   const { step } = useWizard();
   const STEPS: Step[] = [
-    { step: 1, label: "Valor", icon: <CircleDollarSign /> },
+    { step: 1, label: "Cartão", icon: <CreditCard /> },
     { step: 2, label: "Biometria", icon: <Fingerprint /> },
     { step: 3, label: "Confirmação", icon: <Contact2 /> },
-    { step: 4, label: "Sucesso!", icon: <Check /> },
   ];
+  useEffect(() => {
+    userByDocumentMutation
+      .mutateAsync({ document })
+      .then((user) => {
+        setValue("document", user.document);
+        setValue("name", user.name);
+        setValue("phone", user.phone);
+        setValue("addressId", user.addressId);
+      })
+      .finally(() => setLoading(false));
+  }, []);
+  if (isLoading)
+    return <div className="bg-gray-600 text-white">Loading...</div>;
   return (
     <Stepper.Root className="md:w-3/4 w-full h-screen mx-auto bg-gray-600 p-4">
       <div className="w-full mb-4">
@@ -77,7 +80,7 @@ export default function PayWizard() {
           Ir para a página principal
         </Link>
       </div>
-      <ul className="md:w-1/2 flex justify-center gap-2 w-full mx-auto mb-4 ">
+      <ul className="flex justify-center gap-2 mx-auto mb-4 ">
         {STEPS.map((x) => (
           <li
             key={`step-${x.label}`}
@@ -95,7 +98,7 @@ export default function PayWizard() {
           </li>
         ))}
       </ul>
-      <ActiveStepFormComponent />
+      <ActiveStepFormComponent document={document} />
     </Stepper.Root>
   );
 }

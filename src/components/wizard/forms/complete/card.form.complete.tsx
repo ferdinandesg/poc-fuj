@@ -1,27 +1,30 @@
 import { useSocket } from "@/context/socket.context";
+import { useWizard } from "@/context/wizard.context";
 import { trpc } from "@/utils/trpc";
 import { CreditCard, Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useFormContext } from "react-hook-form";
 import { toast } from "react-toastify";
-interface CardFormProps {
-  document: string;
-}
-export default function CardForm({ document }: CardFormProps) {
-  const router = useRouter();
+export default function CardFormComplete() {
+  const { nextStep, backStep } = useWizard();
+  const { getValues } = useFormContext();
   const [isLoading, setLoading] = useState<boolean>(false);
-  const register = trpc.promotions.validateCard.useMutation();
+  const validateCard = trpc.promotions.validateCard.useMutation();
   const { socket } = useSocket();
-
   useEffect(() => {
     socket?.on("receive_token", async (cardToken) => {
       try {
+        const formattedDocument = getValues().document?.replace(/[^0-9]/g, "");
+
         setLoading(true);
-        const response = await register.mutateAsync({ cardToken, document });
+        const response = await validateCard.mutateAsync({
+          cardToken,
+          document: formattedDocument,
+        });
         console.log({ response, cardToken });
         setLoading(false);
-        router.push("/store");
-        toast("Usuário cadastrado com sucesso!");
+        nextStep();
       } catch (error) {
         console.log({ error });
       }
@@ -32,9 +35,10 @@ export default function CardForm({ document }: CardFormProps) {
   }, [socket]);
 
   return (
-    <div>
+    <div className="flex flex-col items-center">
+      <CreditCard className="animate-pulse" size={96} />
       {isLoading && (
-        <div className="absolute w-screen h-screen bg-black bg-opacity-25 flex items-center justify-center">
+        <div className="flex items-center justify-center">
           {" "}
           <Loader
             size={96}
@@ -44,8 +48,6 @@ export default function CardForm({ document }: CardFormProps) {
           />{" "}
         </div>
       )}
-
-      <CreditCard className="animate-pulse" size={96} />
     </div>
   );
 }

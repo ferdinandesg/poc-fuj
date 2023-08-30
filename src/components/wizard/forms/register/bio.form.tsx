@@ -13,10 +13,10 @@ interface UserForm {
   phone: string;
   document: string;
 }
-export default function BioFormIdentify() {
+export default function BioFormRegister() {
+  const router = useRouter();
   const { nextStep } = useWizard();
-  const {} = useFormContext<UserForm>();
-  const { setValue } = useFormContext<UserForm>();
+  const { getValues } = useFormContext<UserForm>();
   const [infoMessage, setInfoMessage] = useState<string>(
     "Posicione seu dedo no leitor"
   );
@@ -24,32 +24,25 @@ export default function BioFormIdentify() {
   const [isSuccess, setSuccess] = useState<boolean>(false);
   const validateBio = trpc.promotions.validateBio.useMutation();
   const { socket } = useSocket();
+  const formattedDocument = getValues().document.replace(/[^0-9]/g, "");
   useEffect(() => {
-    socket?.emit("identify");
+    socket?.emit("register", formattedDocument);
     socket?.on("putIn", () => {
       setInfoMessage("Posicione seu dedo no leitor...");
     });
     socket?.on("takeOut", () => {
       setInfoMessage("Remova o dedo...");
     });
-
-    socket?.on("error", () => {
-      socket?.emit("identify");
-    });
     socket?.on("started", () => {
       toast("Leitura iniciada");
     });
-    socket?.on("success", async (document: string) => {
+    socket?.on("success", async () => {
       try {
-        console.log({ document });
-
-        toast("Carregando informações de usuário...!");
-        const user = await validateBio.mutateAsync({ document });
-        if (user.name) setValue("name", user.name);
-        if (user.phone) setValue("phone", user?.phone);
-        if (user.addressId) setValue("address", user.addressId || "");
+        setLoading(true)
+        await validateBio.mutateAsync({ document: formattedDocument });
+        setLoading(false)
+        toast("Biometria cadastrada com sucesso!");
         nextStep();
-        toast("Biometria validada com sucesso!");
       } catch (error) {
         console.log({ error });
       }
@@ -58,7 +51,6 @@ export default function BioFormIdentify() {
     return () => {
       socket?.off("success");
       socket?.off("started");
-      socket?.off("error");
       socket?.off("putIn");
       socket?.off("takeOut");
     };

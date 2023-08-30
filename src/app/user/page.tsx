@@ -25,8 +25,8 @@ export default function UserHome() {
   const [document, setDocument] = useState<string>("");
   const authMutation = trpc.users.auth.useMutation();
   const src = "";
+  const formattedDocument = document.replace(/[^0-9]/g, "");
   const finishRegister = async () => {
-    const formattedDocument = document.replace(/[^0-9]/g, "");
     try {
       const user = await authMutation.mutateAsync({
         document: formattedDocument,
@@ -83,7 +83,6 @@ export default function UserHome() {
           style={{ backgroundImage: src }}
         >
           <h2 className="text-white">Escolha a opção desejada:</h2>
-
         </div>
         <div className="flex flex-col h-full justify-around">
           <div className="flex flex-col gap-2">

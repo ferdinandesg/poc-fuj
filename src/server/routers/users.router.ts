@@ -10,17 +10,25 @@ const client = new Twilio(process.env.TWILLIO_ID, process.env.TWILLIO_AUTH);
 export const usersRouter = router({
   create: procedure.input(userSchema).mutation(async ({ input }) => {
     try {
-      const code = generateSMSCode();
-      const promotion = await prisma.promotion.create({
-        data: { sms: { code } },
-      });
-      const inserted = await prisma.user.create({
-        data: { ...input, promotionId: promotion.id },
-      });
+      const foundUser = await prisma.user.findFirst({ where: { document: input.document } })
+      let inserted;
+      if (foundUser) {
+        inserted = await prisma.user.update({ where: { document: input.document }, data: { ...input }, include: { promotion: true } })
+      } else {
+        const code = generateSMSCode();
+        const promotion = await prisma.promotion.create({
+          data: { sms: { code } },
+        });
+        inserted = await prisma.user.create({
+          data: { ...input, promotionId: promotion.id }, include: { promotion: true },
+        });
+      }
+
+
       await client.messages.create({
         from: "+18156058261",
         to: `+55${inserted.phone}`,
-        body: `Seu código de confirmação é ${code}.`,
+        body: `Seu código de confirmação é ${inserted.promotion?.sms.code}.`,
       });
       console.log("SMS Enviado com sucesso!");
       return inserted;
@@ -54,17 +62,12 @@ export const usersRouter = router({
   fastRegister: procedure.input(userSchema).mutation(async ({ input }) => {
     const code = generateSMSCode();
     const promotion = await prisma.promotion.create({
-      data: { sms: { code } },
+      data: { sms: { code }, palm: true },
     });
-    const inserted = await prisma.user.create({
+    const inserted = await prisma.user.updateMany({
+      where: { document: input.document },
       data: { ...input, promotionId: promotion.id },
     });
-    await client.messages.create({
-      from: "+18156058261",
-      to: `+55${inserted.phone}`,
-      body: `Seu código de confirmação é ${code}.`,
-    });
-    console.log("SMS Enviado com sucesso!");
     return inserted;
   }),
 });

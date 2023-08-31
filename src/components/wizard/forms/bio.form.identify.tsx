@@ -51,6 +51,7 @@ export default function BioFormIdentify() {
         nextStep();
         toast("Biometria validada com sucesso!");
       } catch (error) {
+        if (typeof error === "string") toast(error);
         console.log({ error });
       }
     });

@@ -36,18 +36,23 @@ export default function CardFormComplete() {
 
   return (
     <div className="flex flex-col items-center">
-      <CreditCard className="animate-pulse" size={96} />
-      {isLoading && (
-        <div className="flex items-center justify-center">
-          {" "}
+      <h2 className="font-bold text-5xl break-normal w-2/3 mb-4 text-white">
+        Cadastrando cartão!
+      </h2>
+      <span className="flex text-white">
+        Aproxime o cartão no validador ao lado
+      </span>
+      <div className="flex flex-col justify-center items-center">
+        <CreditCard className="animate-pulse" color="white" size={96} />
+        {isLoading && (
           <Loader
             size={96}
             color="white"
             fill="white"
             className="animate-spin"
-          />{" "}
-        </div>
-      )}
+          />
+        )}
+      </div>
     </div>
   );
 }

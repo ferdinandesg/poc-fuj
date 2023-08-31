@@ -4,7 +4,7 @@ import { userSchema } from "../schemas/user.schema";
 import { generateSMSCode } from "../utils/sms.code";
 import { Twilio } from "twilio";
 import { z } from "zod";
-
+ 
 const client = new Twilio(process.env.TWILLIO_ID, process.env.TWILLIO_AUTH);
 
 export const usersRouter = router({

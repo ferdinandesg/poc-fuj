@@ -45,6 +45,7 @@ export default function BioFormIdentify() {
 
         toast("Carregando informações de usuário...!");
         const user = await validateBio.mutateAsync({ document });
+        if (user.document) setValue("document", user.document);
         if (user.name) setValue("name", user.name);
         if (user.phone) setValue("phone", user?.phone);
         if (user.addressId) setValue("address", user.addressId || "");
@@ -68,7 +69,7 @@ export default function BioFormIdentify() {
   return (
     <div>
       <h2 className="font-bold text-5xl break-normal w-2/3 mb-4 text-white">
-        Cadastrando biometria!
+        Identificando biometria!
       </h2>
       <p className="text-white">{infoMessage}</p>
       <div className="flex flex-col justify-center items-center">

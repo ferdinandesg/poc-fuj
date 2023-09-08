@@ -6,7 +6,7 @@ import { SocketProvider } from "@/context/socket.context";
 const inter = Inter({ subsets: ["latin"] });
 
 function RootLayout({ children }: { children: React.ReactNode }) {
-    return <SocketProvider>
+    return <SocketProvider channel="reader">
         {children}
     </SocketProvider>
 

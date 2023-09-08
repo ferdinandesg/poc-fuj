@@ -36,9 +36,14 @@ export default function UserHome() {
                         </Link>
                         <Link
                             className="p-2 text-left transition hover:bg-white bg-gray-600 border-white border hover:text-gray-600 text-white rounded "
-                            href={"/store"}
+                            href={"/store/reader"}
                         >
-                            Painel Lojista
+                            Painel Lojista (Fingerprint)
+                        </Link><Link
+                            className="p-2 text-left transition hover:bg-white bg-gray-600 border-white border hover:text-gray-600 text-white rounded "
+                            href={"/store/palm"}
+                        >
+                            Painel Lojista (Palm)
                         </Link>
                     </div>
 

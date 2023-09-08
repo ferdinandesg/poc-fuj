@@ -64,14 +64,14 @@ export default function StoreHome() {
           <div className="flex flex-col gap-2">
 
             <Link className="p-2 transition hover:bg-white bg-gray-600 border-white border hover:text-gray-600 text-white rounded "
-              href={"/store/pay"}
+              href={"/store/reader/pay"}
             >
               Pagar
             </Link>
 
 
             <Link
-              href={"/store/register"}
+              href={"/store/reader/register"}
               className="p-2 transition hover:bg-white bg-gray-600 border-white border hover:text-gray-600 text-white rounded "
             >
               Cadastro Rápido

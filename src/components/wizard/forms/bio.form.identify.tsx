@@ -25,6 +25,9 @@ export default function BioFormIdentify() {
   const validateBio = trpc.promotions.validateBio.useMutation();
   const { socket } = useSocket();
   useEffect(() => {
+    console.log('emitou');
+    console.log(socket?.connected);
+    
     socket?.emit("identify");
     socket?.on("putIn", () => {
       setInfoMessage("Posicione seu dedo no leitor...");

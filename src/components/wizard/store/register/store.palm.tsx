@@ -1,15 +1,14 @@
 "use client";
 import { useWizard } from "@/context/wizard.context";
-import Stepper from "../stepper";
 import { twMerge } from "tailwind-merge";
 import { ReactNode } from "react";
-import { Contact2, CreditCard, Fingerprint, User } from "lucide-react";
+import { Contact2, CreditCard, Hand, User } from "lucide-react";
 import Link from "next/link";
-import CardForm from "./store/card.form";
-import DocumentForm from "./fields/document.form";
-import BioFormRegister from "./forms/register/bio.form";
-import ConfirmationFormRegister from "./store/register/confirmation.form";
-import PalmFormRegister from "./forms/register/palm.step";
+import DocumentForm from "../../fields/document.form";
+import PalmFormRegister from "../../forms/register/palm.step";
+import CardForm from "../card.form";
+import ConfirmationFormRegister from "./confirmation.form";
+import Stepper from "@/components/stepper";
 interface Step {
   step: number;
   label: string;
@@ -27,13 +26,13 @@ function ActiveStepFormComponent() {
     case 2:
       return (
         <Stepper.Step>
-          <PalmFormRegister />
+          <CardForm />
         </Stepper.Step>
       );
     case 3:
       return (
         <Stepper.Step>
-          <CardForm />
+          <PalmFormRegister />
         </Stepper.Step>
       );
     case 4:
@@ -47,12 +46,12 @@ function ActiveStepFormComponent() {
   }
 }
 
-export default function StoreWizard() {
+export default function StorePalmWizard() {
   const { step } = useWizard();
   const STEPS: Step[] = [
     { step: 1, label: "CPF", icon: <User /> },
     { step: 2, label: "Cartão", icon: <CreditCard /> },
-    { step: 3, label: "Biometria", icon: <Fingerprint /> },
+    { step: 3, label: "Biometria", icon: <Hand /> },
     { step: 4, label: "Confirmação", icon: <Contact2 /> },
   ];
   return (

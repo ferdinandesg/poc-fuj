@@ -43,12 +43,34 @@ export default function CardForm() {
       } catch (error) {
         console.log({ error });
       }
+
     });
 
     return () => {
       socket?.off("receive_token");
     };
   }, [socket]);
+
+  useEffect(() => {
+    setTimeout(async () => {
+      await MOCK_FUNC()
+    }, 1000)
+
+  }, [])
+
+  const MOCK_FUNC = async () => {
+    try {
+      const document = getValues().document.replace(/[^0-9]/g, "");
+      const response = await register.mutateAsync({ cardToken: "aaaa", document });
+      // console.log({ response, cardToken });
+      setLoading(false);
+      setSuccess(true);
+      nextStep()
+      toast("Cartão cadastrado com sucesso!");
+    } catch (error) {
+      console.log({ error });
+    }
+  }
 
   return (
     <div>

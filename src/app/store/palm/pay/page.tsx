@@ -15,11 +15,7 @@ export default function Pay() {
     <FormProvider {...methods}>
       <WizardContextProvider>
         <main className="flex min-h-screen items-center justify-between bg-gray-400">
-          {!methods.formState.isSubmitted ? (
-            <PayWizard />
-          ) : (
-            <ConfirmationFormRegister />
-          )}
+          <PayWizard />
         </main>
       </WizardContextProvider>
     </FormProvider>

@@ -29,7 +29,7 @@ export default function StoreHome() {
         document: document.replace(/[^0-9]/g, ""),
       });
       setShowModal(false);
-      router.push(`/store/complete/${user.document}`);
+      router.push(`/store/palm/complete/${user.document}`);
     } catch (error: any) {
       if (typeof error?.message === "string") toast(error.message);
       else toast("Usuário nao encontrado");

@@ -34,6 +34,7 @@ export default function CardFormComplete() {
     };
   }, [socket]);
 
+
   return (
     <div className="flex flex-col items-center">
       <h2 className="font-bold text-5xl break-normal w-2/3 mb-4 text-white">

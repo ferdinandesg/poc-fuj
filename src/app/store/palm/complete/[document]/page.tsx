@@ -5,6 +5,7 @@ import PhoneConfirm from "@/components/wizard/forms/phone.confirm";
 import StoreWizard from "@/components/wizard/store";
 import CompleteWizard from "@/components/wizard/complete";
 import SuccessForm from "@/components/wizard/forms/success.form";
+import CompletePalmWizard from "@/components/wizard/store/register/complete.palm";
 interface UserForm {
   name: string;
   email: string;
@@ -26,7 +27,7 @@ export default function Complete({ params }: CompleteRegisterParams) {
       <WizardContextProvider>
         <main className="flex min-h-screen items-center justify-between bg-gray-400">
           {!methods.formState.isSubmitted ? (
-            <CompleteWizard document={params.document} />
+            <CompletePalmWizard document={params.document} />
           ) : (
             <SuccessForm />
           )}

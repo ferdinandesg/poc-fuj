@@ -38,7 +38,6 @@ export const promotionsRouter = router({
           cardToken,
         },
       });
-      if (!user) throw "Usuário não encontrado, contate o administrador";
       return { ok: true };
     }),
   validateBio: procedure
@@ -51,6 +50,29 @@ export const promotionsRouter = router({
         },
       });
       if (!user) throw "Usuário não encontrado";
+      if (user.promotionId)
+        await prisma.promotion.update({
+          where: { id: user?.promotionId },
+          data: { palm: true },
+        });
+      return user;
+    }),
+  validatePalm: procedure
+    .input(z.object({ document: z.string() }))
+    .mutation(async ({ input }) => {
+      const { document } = input;
+      let user = await prisma.user.findFirst({
+        where: {
+          document,
+        },
+      });
+      if (!user){
+        user = await prisma.user.create({
+          data: {
+            document,
+          },
+        });
+      };
       if (user.promotionId)
         await prisma.promotion.update({
           where: { id: user?.promotionId },

@@ -4,15 +4,14 @@ import { userSchema } from "../schemas/user.schema";
 import { generateSMSCode } from "../utils/sms.code";
 import { Twilio } from "twilio";
 import { z } from "zod";
- 
-console.log({TWILLIO_ID: process.env.TWILLIO_ID, TWILLIO_AUTH: process.env.TWILLIO_AUTH});
 
-const client = new Twilio(process.env.TWILLIO_ID, process.env.TWILLIO_AUTH);
+console.log({ TWILLIO_ID: process.env.TWILLIO_ID, TWILLIO_AUTH: process.env.TWILLIO_AUTH });
+
 
 export const usersRouter = router({
   create: procedure.input(userSchema).mutation(async ({ input }) => {
     try {
-  const foundUser = await prisma.user.findFirst({ where: { document: input.document } })
+      const foundUser = await prisma.user.findFirst({ where: { document: input.document } })
       let inserted;
       if (foundUser) {
         inserted = await prisma.user.update({ where: { document: input.document }, data: { ...input }, include: { promotion: true } })
@@ -26,6 +25,7 @@ export const usersRouter = router({
         });
       }
 
+      const client = new Twilio(process.env.TWILLIO_ID, process.env.TWILLIO_AUTH);
 
       await client.messages.create({
         from: "+18156058261",

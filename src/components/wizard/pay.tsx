@@ -1,10 +1,6 @@
 "use client";
 import { useWizard } from "@/context/wizard.context";
 import Stepper from "../stepper";
-import NameForm from "./fields/name.form";
-import DocumentForm from "./fields/document.form";
-import AddressForm from "./fields/address.form";
-import PhoneForm from "./fields/phone.form";
 import { twMerge } from "tailwind-merge";
 import { ReactNode } from "react";
 import {
@@ -16,12 +12,14 @@ import {
   Fingerprint,
   Contact2,
   Check,
+  Hand,
 } from "lucide-react";
 import ConfirmationForm from "./forms/confirmation.form";
 import Link from "next/link";
 import PaymentForm from "./forms/pay.form";
 import BioFormIdentify from "./forms/bio.form.identify";
 import SuccessForm from "./forms/success.form";
+import { usePathname } from "next/navigation";
 interface Step {
   step: number;
   label: string;
@@ -61,9 +59,16 @@ function ActiveStepFormComponent() {
 
 export default function PayWizard() {
   const { step } = useWizard();
+  const pathname = usePathname();
+  console.log(pathname);
+
   const STEPS: Step[] = [
     { step: 1, label: "Valor", icon: <CircleDollarSign /> },
-    { step: 2, label: "Biometria", icon: <Fingerprint /> },
+    {
+      step: 2,
+      label: "Biometria",
+      icon: pathname.includes("reader") ? <Fingerprint /> : <Hand />,
+    },
     { step: 3, label: "Confirmação", icon: <Contact2 /> },
     { step: 4, label: "Sucesso!", icon: <Check /> },
   ];

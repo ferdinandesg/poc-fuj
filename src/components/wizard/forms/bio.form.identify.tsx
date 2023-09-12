@@ -1,8 +1,8 @@
 import { useSocket } from "@/context/socket.context";
 import { useWizard } from "@/context/wizard.context";
 import { trpc } from "@/utils/trpc";
-import { CreditCard, Fingerprint, Loader } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { CreditCard, Fingerprint, Hand, Loader } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -18,19 +18,21 @@ export default function BioFormIdentify() {
   const {} = useFormContext<UserForm>();
   const { setValue } = useFormContext<UserForm>();
   const [infoMessage, setInfoMessage] = useState<string>(
-    "Posicione seu dedo no leitor"
+    "Posicione no leitor"
   );
   const [isLoading, setLoading] = useState<boolean>(false);
   const [isSuccess, setSuccess] = useState<boolean>(false);
   const validateBio = trpc.promotions.validateBio.useMutation();
   const { socket } = useSocket();
+  const pathname = usePathname();
+
   useEffect(() => {
-    console.log('emitou');
+    console.log("emitou");
     console.log(socket?.connected);
-    
+
     socket?.emit("identify");
     socket?.on("putIn", () => {
-      setInfoMessage("Posicione seu dedo no leitor...");
+      setInfoMessage("Posicione no leitor...");
     });
     socket?.on("takeOut", () => {
       setInfoMessage("Remova o dedo...");
@@ -75,12 +77,13 @@ export default function BioFormIdentify() {
         Identificando biometria!
       </h2>
       <p className="text-white">{infoMessage}</p>
-      <div className="flex flex-col justify-center items-center">
-        {isSuccess ? (
-          <Fingerprint color="green" size={96} />
-        ) : (
+      <div className="flex flex-col justify-center items-center gap-2 mb-5">
+        {pathname.includes("reader") ? (
           <Fingerprint className="animate-pulse" color="white" size={96} />
+        ) : (
+          <Hand className="animate-pulse" color="white" size={96} />
         )}
+
         {isLoading && (
           <Loader
             size={96}

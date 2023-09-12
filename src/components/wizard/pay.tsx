@@ -71,7 +71,7 @@ export default function PayWizard() {
     <Stepper.Root className="md:w-3/4 w-full h-screen mx-auto bg-gray-600 p-4">
       <div className="w-full mb-4">
         <Link
-          href="/store"
+          href="/"
           className="text-xs underline cursor-pointer hover:text-gray-200 text-white"
         >
           Ir para a página principal

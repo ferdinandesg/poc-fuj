@@ -48,6 +48,7 @@ export default function CardForm() {
 
     return () => {
       socket?.off("receive_token");
+      socket?.off("receive_tap");
     };
   }, [socket]);
 

@@ -43,7 +43,7 @@ export default function ConfirmationFormRegister() {
       if (!isValid) return;
       formData.document = formData.document.replace(/[^0-9]/g, "");
       await createUser.mutateAsync(formData);
-      router.push("/store");
+      router.push("/store/palm");
     } catch (error) {
       console.log({ error });
     }

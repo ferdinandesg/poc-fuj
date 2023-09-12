@@ -20,7 +20,7 @@ export default function CardForm({ document }: CardFormProps) {
         const response = await register.mutateAsync({ cardToken, document });
         console.log({ response, cardToken });
         setLoading(false);
-        router.push("/store");
+        router.push("/");
         toast("Usuário cadastrado com sucesso!");
       } catch (error) {
         console.log({ error });

@@ -42,6 +42,7 @@ export default function ConfirmationForm() {
     } catch (error) {
       if (typeof error === "string") toast(error);
       console.log(error);
+      
     }
   };
   return (

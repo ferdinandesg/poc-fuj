@@ -15,13 +15,18 @@ export const paymentRouter = router({
         },
       });
       if (!user) throw "Usuário não encontrado";
-      const response = await fetch(
-        `${process.env.PMS_URL}/payment/${user.cardToken}`,
-        { method: "POST" }
-      );
-      const json = await response.json();
-      console.log({ json });
+      try {
+        const response = await fetch(
+          `${process.env.PMS_URL}/payment/${user.cardToken}`,
+          { method: "POST" }
+        );
+        const json = await response.json();
+        console.log({ json });
 
+      } catch (error) {
+        console.log({ error });
+
+      }
       return { ok: true };
     }),
 });

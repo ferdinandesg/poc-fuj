@@ -52,12 +52,11 @@ export default function CardForm() {
     };
   }, [socket]);
 
-  useEffect(() => {
-    setTimeout(async () => {
-      await MOCK_FUNC()
-    }, 1000)
-
-  }, [])
+  // useEffect(() => {
+  //   setTimeout(async () => {
+  //     await MOCK_FUNC()
+  //   }, 1000)
+  // }, [])
 
   const MOCK_FUNC = async () => {
     try {

@@ -35,7 +35,7 @@ export default function Address() {
   const { nextStep, backStep } = useWizard();
   const { register, setValue, watch } = useFormContext<UserForm>();
   const [address, setAddress] = useState<AddressType>()
-  const [isLoading, setLoading] = useState<boolean>(true);
+  const [isLoading, setLoading] = useState<boolean>(false);
   const watchCep = watch("addressId");
   const isCepValid = /^\d{5}-\d{3}$/.test(watchCep);
   const formattedCep = watchCep?.replace(/[^0-9]/g, "")

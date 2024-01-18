@@ -1,12 +1,10 @@
 import { procedure, router } from "../trpc";
 import { prisma } from "@/server/prisma";
-import { userSchema } from "../schemas/user.schema";
+import { UserSchema, userSchema } from "../schemas/user.schema";
 import { generateSMSCode } from "../utils/sms.code";
 import { Twilio } from "twilio";
 import { z } from "zod";
-
-console.log({ TWILLIO_ID: process.env.TWILLIO_ID, TWILLIO_AUTH: process.env.TWILLIO_AUTH });
-
+import { upsertCustomer } from "../axios";
 
 export const usersRouter = router({
   create: procedure.input(userSchema).mutation(async ({ input }) => {
@@ -24,7 +22,7 @@ export const usersRouter = router({
           data: { ...input, promotionId: promotion.id }, include: { promotion: true },
         });
       }
-
+      await upsertCustomer(inserted)
       const client = new Twilio(process.env.TWILLIO_ID, process.env.TWILLIO_AUTH);
 
       await client.messages.create({

@@ -1,6 +1,7 @@
 import { prisma } from "./../prisma";
 import { z } from "zod";
 import { procedure, router } from "../trpc";
+import { upsertCustomer } from "../axios";
 
 export const promotionsRouter = router({
   validatePhone: procedure
@@ -38,6 +39,7 @@ export const promotionsRouter = router({
           cardToken,
         },
       });
+      await upsertCustomer({ cardToken, document })
       return { ok: true };
     }),
   validateBio: procedure
@@ -66,7 +68,7 @@ export const promotionsRouter = router({
           document,
         },
       });
-      if (!user){
+      if (!user) {
         user = await prisma.user.create({
           data: {
             document,

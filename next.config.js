@@ -10,6 +10,7 @@ const nextConfig = {
   },
   env: {
     PMS_URL: "https://fast-one-payment-poc-9d1433ac8f17.herokuapp.com",
+    AME_API: "http://localhost:3000/api"
   }
 
 };
